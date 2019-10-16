@@ -30,6 +30,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ActivityFoodDetail::class.java)
             startActivity(intent)
         }
+
+        val button4 = findViewById<View>(R.id.button4)
+        button4.setOnClickListener {
+            val intent = Intent(this, ActivityFoodHistory::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

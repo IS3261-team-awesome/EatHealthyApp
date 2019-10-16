@@ -2,6 +2,7 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -20,35 +21,52 @@ class ActivityFoodDetail : AppCompatActivity() {
         Volley.newRequestQueue(this)
     }
 
+    lateinit var foodDBHelper: DBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
 
+        foodDBHelper = DBHelper(this)
 
         val input = findViewById<EditText>(R.id.editTextfoodName)
 
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
         btnSubmit.setOnClickListener {
-            sendRequest(input.text.toString())
+            fetchNutritionInfo(input.text.toString())
         }
 
     }
 
-    fun sendRequest(foodName: String) {
+    fun fetchNutritionInfo(foodName: String) {
         val url = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${foodName}"
         val textView = findViewById<TextView>(R.id.textViewfoodNutrition)
 
         val stringRequest = StringRequest(Request.Method.GET, url,
                 Response.Listener<String> { response ->
-                    textView.text = getNutrients(response)
+                    val json = JSONObject(response)
+                    val nutrientsObject = json.getJSONObject("totalNutrientsKCal")
+                    val calories = getCalories(nutrientsObject)
+
+                    textView.text = setTextView(response)
+                    addFoodToDB(FoodRecord(foodName, calories))
                 },
-                Response.ErrorListener { textView.text = "That didn't work!" }
+                Response.ErrorListener {
+                    textView.text = "That didn't work!"
+                }
         )
 
         queue.add(stringRequest)
     }
 
-    fun getNutrients(data: String): String {
+    fun getCalories(nutrientsObject: JSONObject): Int {
+        val energy = nutrientsObject.getJSONObject("ENERC_KCAL")
+        Log.i("get cal", energy.getString("quantity"))
+
+        return energy.getString("quantity").toInt()
+    }
+
+    fun setTextView(data: String): String {
         val json = JSONObject(data)
         val nutrientsKCal = json.getJSONObject("totalNutrientsKCal")
 
@@ -61,9 +79,13 @@ class ActivityFoodDetail : AppCompatActivity() {
         val fat = nutrientsKCal.getJSONObject("FAT_KCAL")
         val fatQty = fat.getString("quantity")
 
-        val carb = nutrientsKCal.getJSONObject("CHOCDF_KCAL")
-        val carbQty = carb.getString("quantity")
+        val carbs = nutrientsKCal.getJSONObject("CHOCDF_KCAL")
+        val carbsQty = carbs.getString("quantity")
 
-        return "Calories: ${energyQty}\nProtein: ${proteinQty}\nFat: ${fatQty}\nCarb: ${carbQty}\n"
+        return "Calories: ${energyQty}\nProtein: ${proteinQty}\nFat: ${fatQty}\nCarbs: ${carbsQty}\n"
+    }
+
+    fun addFoodToDB(food: FoodRecord) {
+        foodDBHelper.insertFood(food)
     }
 }
