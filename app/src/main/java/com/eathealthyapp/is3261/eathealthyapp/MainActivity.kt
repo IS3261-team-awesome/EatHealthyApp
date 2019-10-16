@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
             myCamera = MyCamera(this)
             myCamera.dispatchTakePictureIntent()
         }
+
+        val button3 = findViewById<View>(R.id.button3)
+        button3.setOnClickListener {
+            val intent = Intent(this, ActivityFoodDetail::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
