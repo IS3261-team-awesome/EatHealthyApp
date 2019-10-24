@@ -6,20 +6,11 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 
 class ActivityFoodDetail : AppCompatActivity() {
     val APP_ID = "0377a2d4"
     val APP_KEY = "b41e77e4438bcd0244672cbbc943ff8d"
-
-    val queue: RequestQueue by lazy {
-        Volley.newRequestQueue(this)
-    }
 
     lateinit var foodDBHelper: DBHelper
 
@@ -31,9 +22,13 @@ class ActivityFoodDetail : AppCompatActivity() {
 
         val input = findViewById<EditText>(R.id.editTextfoodName)
 
+        val tv = findViewById<TextView>(R.id.textViewfoodNutrition)
+
+
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
         btnSubmit.setOnClickListener {
-            fetchNutritionInfo(input.text.toString())
+            val foodName = input.text.toString()
+            InternetJSON(this, foodName, tv).execute()
         }
 
     }
@@ -42,27 +37,25 @@ class ActivityFoodDetail : AppCompatActivity() {
         val url = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${foodName}"
         val textView = findViewById<TextView>(R.id.textViewfoodNutrition)
 
-        val stringRequest = StringRequest(Request.Method.GET, url,
-                Response.Listener<String> { response ->
-                    val json = JSONObject(response)
-                    val nutrientsObject = json.getJSONObject("totalNutrientsKCal")
-                    val calories = getCalories(nutrientsObject)
-
-                    textView.text = setTextView(response)
-                    addFoodToDB(FoodRecord(foodName, calories))
-                },
-                Response.ErrorListener {
-                    textView.text = "That didn't work!"
-                }
-        )
-
-        queue.add(stringRequest)
+//        val stringRequest = StringRequest(Request.Method.GET, url,
+//                Response.Listener<String> { response ->
+//                    val json = JSONObject(response)
+//                    val nutrientsObject = json.getJSONObject("totalNutrientsKCal")
+//                    val calories = getCalories(nutrientsObject)
+//
+//                    textView.text = setTextView(response)
+//                    addFoodToDB(FoodRecord(foodName, calories))
+//                },
+//                Response.ErrorListener {
+//                    textView.text = "That didn't work!"
+//                }
+//        )
+//
+//        queue.add(stringRequest)
     }
 
     fun getCalories(nutrientsObject: JSONObject): Int {
         val energy = nutrientsObject.getJSONObject("ENERC_KCAL")
-        Log.i("get cal", energy.getString("quantity"))
-
         return energy.getString("quantity").toInt()
     }
 
