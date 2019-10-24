@@ -2,17 +2,19 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.content.Context
 import android.os.AsyncTask
-import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
+interface OnFoodParsed {
+    fun OnFoodParsed(food: Food);
+}
+
 class JSONParser(private var c: Context,
+                 private var listener: OnFoodParsed,
                  private var jsonData: String,
-                 private var myTextView: TextView) : AsyncTask<Void, Void, Boolean>() {
-    private var foods = ArrayList<Food>()
+                 private var foodName: String) : AsyncTask<Void, Void, Boolean>() {
+    private lateinit var food : Food
 
     override fun onPreExecute() {
         super.onPreExecute()
@@ -25,9 +27,8 @@ class JSONParser(private var c: Context,
     override fun onPostExecute(result: Boolean?) {
         super.onPostExecute(result)
         if (result!!) {
-            myTextView.text = "parse successful -- " + foods.size +
-                    " " + foods[foods.size - 1].getName() +
-                    " " + foods[foods.size - 1].getCalories()
+            listener.OnFoodParsed(food)
+
         } else {
             Toast.makeText(c, "unable to parse", Toast.LENGTH_LONG).show()
             Toast.makeText(
@@ -41,17 +42,13 @@ class JSONParser(private var c: Context,
         try {
             var jo = JSONObject(jsonData)
 
-            foods.clear()
-            var food: Food
-
             val totalNutrientsKCal = jo.getJSONObject("totalNutrientsKCal")
             val energyKCal = totalNutrientsKCal.getJSONObject("ENERC_KCAL")
             val qty = energyKCal.getString("quantity")
 //            val calories = totalNutrients.getJSONObject("ENERC_KCAL").getString("quantity")
 //            val calories = jo.getString("calories")
 
-            food = Food("apple", qty)
-            foods.add(food)
+            food = Food(foodName, qty)
 
             return true
         } catch (e: JSONException) {

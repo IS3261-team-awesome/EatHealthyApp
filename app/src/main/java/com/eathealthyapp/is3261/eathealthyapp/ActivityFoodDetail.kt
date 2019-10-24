@@ -8,9 +8,8 @@ import android.widget.EditText
 import android.widget.TextView
 import org.json.JSONObject
 
-class ActivityFoodDetail : AppCompatActivity() {
-    val APP_ID = "0377a2d4"
-    val APP_KEY = "b41e77e4438bcd0244672cbbc943ff8d"
+class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
+
 
     lateinit var foodDBHelper: DBHelper
 
@@ -28,30 +27,14 @@ class ActivityFoodDetail : AppCompatActivity() {
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
         btnSubmit.setOnClickListener {
             val foodName = input.text.toString()
-            InternetJSON(this, foodName, tv).execute()
+            InternetJSON(this, this, foodName).execute()
         }
 
     }
 
-    fun fetchNutritionInfo(foodName: String) {
-        val url = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${foodName}"
-        val textView = findViewById<TextView>(R.id.textViewfoodNutrition)
-
-//        val stringRequest = StringRequest(Request.Method.GET, url,
-//                Response.Listener<String> { response ->
-//                    val json = JSONObject(response)
-//                    val nutrientsObject = json.getJSONObject("totalNutrientsKCal")
-//                    val calories = getCalories(nutrientsObject)
-//
-//                    textView.text = setTextView(response)
-//                    addFoodToDB(FoodRecord(foodName, calories))
-//                },
-//                Response.ErrorListener {
-//                    textView.text = "That didn't work!"
-//                }
-//        )
-//
-//        queue.add(stringRequest)
+    override fun OnFoodParsed(food: Food) {
+        val tv = findViewById<TextView>(R.id.textViewfoodNutrition)
+        tv.text = "parse successful -- " + food.getName() + " "+ food.getCalories()
     }
 
     fun getCalories(nutrientsObject: JSONObject): Int {

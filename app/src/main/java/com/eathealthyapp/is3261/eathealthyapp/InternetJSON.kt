@@ -2,7 +2,6 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.content.Context
 import android.os.AsyncTask
-import android.widget.TextView
 import android.widget.Toast
 import java.io.BufferedInputStream
 import java.io.BufferedReader
@@ -12,8 +11,8 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-class InternetJSON(private var c: Context, private var foodName: String, private var myTextView: TextView):
-        AsyncTask<Void, Void, String>(){
+class InternetJSON(private var c: Context, private var listener: OnFoodParsed, private var foodName: String)
+    : AsyncTask<Void, Void, String>() {
     val APP_ID = "0377a2d4"
     val APP_KEY = "b41e77e4438bcd0244672cbbc943ff8d"
 
@@ -39,9 +38,7 @@ class InternetJSON(private var c: Context, private var foodName: String, private
             Toast.makeText(c, "Connect problem most probably cannot connect to any network",
                     Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(c, "Network Connection and Download successful, now parsing ...",
-                    Toast.LENGTH_LONG).show()
-            JSONParser(c, jsonData, myTextView).execute()
+            JSONParser(c, listener, jsonData, foodName).execute()
         }
 
     }
@@ -65,7 +62,6 @@ class InternetJSON(private var c: Context, private var foodName: String, private
             return "CONNECTION ERROR " + e.message
         }
     }
-
 
     private fun download():String {
         val jsonURL = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${foodName}"
