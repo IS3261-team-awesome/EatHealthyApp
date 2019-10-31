@@ -4,6 +4,8 @@
 
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -31,7 +33,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityTopup"></activity>
+        <activity android:name=".ActivityTopup"/>
+        <activity android:name=".ActivityQRCodeFromCamera"/>
     </application>
 
 </manifest>
