@@ -40,20 +40,43 @@ class JSONParser(private var c: Context,
 
     private fun parse(): Boolean {
         try {
-            var jo = JSONObject(jsonData)
+            var foodObject = JSONObject(jsonData)
 
-            val totalNutrientsKCal = jo.getJSONObject("totalNutrientsKCal")
-            val energyKCal = totalNutrientsKCal.getJSONObject("ENERC_KCAL")
-            val qty = energyKCal.getString("quantity")
-//            val calories = totalNutrients.getJSONObject("ENERC_KCAL").getString("quantity")
-//            val calories = jo.getString("calories")
-
-            food = Food(foodName, qty)
+            food = Food(foodName,
+                    5.00, // TODO: set price
+                    getCalories(foodObject).toInt(),
+                    getFat(foodObject).toInt(),
+                    getCarbs(foodObject).toInt(),
+                    getProtein(foodObject).toInt())
 
             return true
         } catch (e: JSONException) {
             e.printStackTrace()
             return false
         }
+    }
+
+    private fun getCalories(foodObject: JSONObject): String {
+        val totalNutrientsObject = foodObject.getJSONObject("totalNutrientsKCal")
+        val caloriesObject = totalNutrientsObject.getJSONObject("ENERC_KCAL")
+        return caloriesObject.getString("quantity")
+    }
+
+    private fun getProtein(foodObject: JSONObject): String {
+        val totalNutrientsObject = foodObject.getJSONObject("totalNutrientsKCal")
+        val proteinObject = totalNutrientsObject.getJSONObject("PROCNT_KCAL")
+        return proteinObject.getString("quantity")
+    }
+
+    private fun getCarbs(foodObject: JSONObject): String {
+        val totalNutrientsObject = foodObject.getJSONObject("totalNutrientsKCal")
+        val carbsObject = totalNutrientsObject.getJSONObject("CHOCDF_KCAL")
+        return carbsObject.getString("quantity")
+    }
+
+    private fun getFat(foodObject: JSONObject): String {
+        val totalNutrientsObject = foodObject.getJSONObject("totalNutrientsKCal")
+        val fatObject = totalNutrientsObject.getJSONObject("FAT_KCAL")
+        return fatObject.getString("quantity")
     }
 }

@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ActivityFoodHistory"></activity>
+        <activity android:name=".ActivityHome"></activity>
+        <activity android:name=".ActivityFoodHistory" />
         <activity android:name=".ActivityFoodDetail" />
 
         <provider

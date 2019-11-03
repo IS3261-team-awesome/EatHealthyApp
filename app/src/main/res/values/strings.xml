@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EatHealthyApp</string>
+    <string name="price">price</string>
 </resources>

@@ -11,7 +11,7 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-class InternetJSON(private var c: Context, private var listener: OnFoodParsed, private var foodName: String)
+class InternetJSON(private var c: Context, private var listener: OnFoodParsed, private var query: String)
     : AsyncTask<Void, Void, String>() {
     val APP_ID = "0377a2d4"
     val APP_KEY = "b41e77e4438bcd0244672cbbc943ff8d"
@@ -38,7 +38,7 @@ class InternetJSON(private var c: Context, private var listener: OnFoodParsed, p
             Toast.makeText(c, "Connect problem most probably cannot connect to any network",
                     Toast.LENGTH_LONG).show()
         } else {
-            JSONParser(c, listener, jsonData, foodName).execute()
+            JSONParser(c, listener, jsonData, query).execute()
         }
 
     }
@@ -64,7 +64,7 @@ class InternetJSON(private var c: Context, private var listener: OnFoodParsed, p
     }
 
     private fun download():String {
-        val jsonURL = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${foodName}"
+        val jsonURL = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${query}"
         val connection = connect(jsonURL)
         if (connection.toString().startsWith("Error")) {
             return connection.toString()
