@@ -13,6 +13,7 @@ import android.support.annotation.RequiresApi
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
     val PROCESS_QRCODE_REQUEST = 1
@@ -99,11 +100,12 @@ class MainActivity : AppCompatActivity() {
         // AFter qrcode is detected
         if (requestCode == PROCESS_QRCODE_REQUEST && resultCode == RESULT_OK) run {
             val scannedText = data?.getStringExtra("SCANNEDTEXT")
-            val testTextView = findViewById<TextView>(R.id.testTextView)
-            testTextView.setText(scannedText)
+            Log.d("MainActivity", "Scanned text string = " + scannedText)
 
             // Set to payment page
-
+            val intent = Intent(this, ActivityPayment::class.java)
+            intent.putExtra("FOODITEM", scannedText)
+            startActivity(intent)
         }
     }
 }

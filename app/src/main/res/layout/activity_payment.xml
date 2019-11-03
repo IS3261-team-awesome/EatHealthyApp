@@ -4,28 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.eathealthyapp.is3261.eathealthyapp.MainActivity">
+    tools:context="com.eathealthyapp.is3261.eathealthyapp.ActivityPayment">
+
+    <TextView
+        android:id="@+id/paymentInfoTV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:text="not yet done" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Wallet" />
+        android:text="Confirm" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/cancelButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Camera" />
+        android:text="Cancel" />
 
-    <FrameLayout
-        android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </FrameLayout>
 
 </LinearLayout>
