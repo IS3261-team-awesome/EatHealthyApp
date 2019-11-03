@@ -1,16 +1,11 @@
 package com.eathealthyapp.is3261.eathealthyapp
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import lecho.lib.hellocharts.model.PieChartData
-import lecho.lib.hellocharts.model.SliceValue
-import lecho.lib.hellocharts.view.PieChartView
 
 
 class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
@@ -61,46 +56,15 @@ class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
         val tvPrice = findViewById<TextView>(R.id.textPrice)
         tvPrice.text = "$${String.format("%.2f", food.getPrice())}"
 
-        drawDonutChart(food)
+        val fragmentManager = supportFragmentManager
+        val foodChartFragment = fragmentManager.findFragmentById(R.id.foodChartDetail) as? FoodChart
+        foodChartFragment?.drawDonutChart(food)
+
+//        drawDonutChart(food)
 
         // set protein
         // set carbs
         // set fat
-    }
-
-    fun drawDonutChart(food: Food) {
-        val pieChartView = findViewById<PieChartView>(R.id.foodChart)
-
-        val pieData = ArrayList<SliceValue>()
-        pieData.add(SliceValue(food.getProteinPerc(), Color.parseColor(colorProtein)))
-        pieData.add(SliceValue(food.getCarbsPerc(), Color.parseColor(colorCarbs)))
-        pieData.add(SliceValue(100f - food.getProteinPerc() - food.getCarbsPerc(), Color.parseColor(colorFat)))
-
-        val pieChartData = PieChartData(pieData)
-        pieChartData.setHasLabels(false)
-        pieChartData.setHasCenterCircle(true)
-
-        pieChartData.centerText1 = food.getCalories().toString()
-        pieChartData.centerText1FontSize = 40
-        pieChartData.centerText1Color = Color.parseColor("#2A282E")
-        pieChartData.centerText1Typeface = Typeface.DEFAULT_BOLD
-
-        pieChartData.centerText2 = "of 1200 kcal"
-        pieChartData.centerText2FontSize = 18
-        pieChartData.centerText2Color = Color.parseColor("#BDBDBD")
-        pieChartData.centerText2Typeface = Typeface.DEFAULT_BOLD
-
-        pieChartData.centerCircleScale = 0.85f
-
-        pieChartView.circleFillRatio = 0.8f
-        pieChartView.pieChartData = pieChartData
-        pieChartView.isInteractive = false
-
-        // animation
-        for (value in pieChartData.values) {
-//            value.setTarget(Math.random().toFloat() * 30 + 15)
-        }
-//        pieChartView.startDataAnimation()
     }
 
     // TODO: add to db
