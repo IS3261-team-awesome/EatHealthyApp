@@ -58,9 +58,11 @@
             android:name="com.eathealthyapp.is3261.eathealthyapp.FragmentFoodChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             tools:layout="@layout/fragment_food_chart" />
 
         <LinearLayout
+            android:id="@+id/foodListContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

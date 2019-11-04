@@ -13,4 +13,8 @@ class FragmentFoodListItem : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_food_list_item, container, false)
     }
+
+    fun viewFoodDetailScreen(food: Food) {
+
+    }
 }

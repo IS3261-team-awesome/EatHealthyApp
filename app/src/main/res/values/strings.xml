@@ -11,4 +11,8 @@
     <string name="carbs">Carbs</string>
     <string name="fat">Fat</string>
     <string name="nutrient_amt_placeholder">54g</string>
+    <string name="food_name_placeholder">Potato Salad</string>
+    <string name="kcal">kcal</string>
+    <string name="button_to_food_detail">button to food detail</string>
+    <string name="amt_placeholder">430</string>
 </resources>
