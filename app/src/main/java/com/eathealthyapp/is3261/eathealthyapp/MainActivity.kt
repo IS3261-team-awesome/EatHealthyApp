@@ -9,17 +9,14 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.widget.Toast
-import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentPageAdaptor
+import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentManager
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentScanner
 
 class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
 
     var allPermissionsGrantedFlag: Int = 0
-
-    lateinit var viewPager: ViewPager
+    lateinit var fragmentManager: FragmentManager
 
     private val permissionList = arrayOf(
             Manifest.permission.CAMERA,
@@ -31,42 +28,17 @@ class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
 
         requestAllPermission()
 
-        // Set viewpager
-        val fragmentPageAdaptor = FragmentPageAdaptor(supportFragmentManager)
-        viewPager = findViewById<ViewPager>(R.id.myvp)
-        viewPager.adapter = fragmentPageAdaptor
-        viewPager.offscreenPageLimit = 3
-        viewPager.currentItem = 1
-
-        // To make camera and detection start only when it is on camera fragment
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageSelected(position: Int) {
-                val scannerFragment: FragmentScanner = fragmentPageAdaptor.getItem(0) as FragmentScanner
-                if (position == 0) {
-                    scannerFragment.startDetection()
-                } else {
-                    scannerFragment.stopDetection()
-                }
-            }
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-
-        // Setup Btm Tab
-        val btmTabLayout = findViewById<TabLayout>(R.id.btmViewPagerTabLayout)
-        btmTabLayout.setupWithViewPager(viewPager)
-        btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_camera)
-        btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_diary)
-        btmTabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_wallet)
+        fragmentManager = FragmentManager(this)
+        fragmentManager.setUp()
     }
 
     override fun onReceiveDataFromScanner(foodText: String) {
-        viewPager.currentItem = 1
+        fragmentManager.setSelectedFragment(1)
         Toast.makeText(this, "YES IT WORKED " + foodText, Toast.LENGTH_SHORT).show()
 
-        val intent = Intent(this, ActivityPayment::class.java)
+        val paymentIntent = Intent(this, ActivityPayment::class.java)
         intent.putExtra("FOOD_TEXT", foodText)
-        startActivity(intent)
+        startActivity(paymentIntent)
     }
 
 
