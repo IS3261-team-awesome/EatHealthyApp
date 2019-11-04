@@ -2,7 +2,6 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,15 +9,18 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
 import android.util.Log
-import android.view.View
-import android.widget.TextView
-import java.util.logging.Logger
+import android.widget.Toast
+import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentScanner
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
     val PROCESS_QRCODE_REQUEST = 1
 
     var allPermissionsGrantedFlag: Int = 0
+
+    lateinit var viewPager: ViewPager
 
     private val permissionList = arrayOf(
             Manifest.permission.CAMERA,
@@ -44,19 +46,32 @@ class MainActivity : AppCompatActivity() {
             allPermissionsGrantedFlag = 1
         }
 
-        // Set listeners for buttons
-        val button1 = findViewById<View>(R.id.button1)
-        button1.setOnClickListener {
-            val intent = Intent(this, ActivityTopup::class.java)
-            startActivity(intent)
-        }
-        val button2 = findViewById<View>(R.id.button2)
-        button2.setOnClickListener {
-            if (allPermissionsGrantedFlag == 1) {
-                val intent = Intent(this, ActivityQRCodeFromCamera::class.java)
-                startActivityForResult(intent, PROCESS_QRCODE_REQUEST)
+        // Set viewpager
+        val fragmentPageAdaptor = FragmentPageAdaptor(supportFragmentManager)
+        viewPager = findViewById<ViewPager>(R.id.myvp)
+        viewPager.adapter = fragmentPageAdaptor
+        viewPager.currentItem = 1
+
+        // To make camera and detection start only when it is on camera fragment
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageSelected(position: Int) {
+                val scannerFragment: FragmentScanner = fragmentPageAdaptor.getItem(0) as FragmentScanner
+                if (position == 0) {
+                    scannerFragment.startDetection()
+                } else {
+                    scannerFragment.stopDetection()
+                }
             }
-        }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+
+        // Setup Btm Tab
+        val btmTabLayout = findViewById<TabLayout>(R.id.btmViewPagerTabLayout)
+        btmTabLayout.setupWithViewPager(viewPager)
+        btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_camera)
+        btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_diary)
+        btmTabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_wallet)
     }
 
     // For this method only required a certain minsdk then dunnid specify in manifest
@@ -107,5 +122,10 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("FOODITEM", scannedText)
             startActivity(intent)
         }
+    }
+
+    override fun onReceiveDataFromScanner(data: String) {
+        viewPager.currentItem = 1
+        Toast.makeText(this, "YES IT WORKED " + data, Toast.LENGTH_SHORT).show()
     }
 }
