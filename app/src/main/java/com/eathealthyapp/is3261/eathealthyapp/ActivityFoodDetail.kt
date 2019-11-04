@@ -9,11 +9,6 @@ import android.widget.TextView
 
 
 class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
-    val colorProtein = "#B477FD"
-    val colorCarbs = "#5CECC9"
-    val colorFat = "#FFD15A"
-    val colorNone = "#EBEBEB"
-
     lateinit var foodDBHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +29,7 @@ class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
         toolbar.setNavigationOnClickListener{
             finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
     }
 
@@ -57,10 +53,8 @@ class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
         tvPrice.text = "$${String.format("%.2f", food.getPrice())}"
 
         val fragmentManager = supportFragmentManager
-        val foodChartFragment = fragmentManager.findFragmentById(R.id.foodChartDetail) as? FoodChart
-        foodChartFragment?.drawDonutChart(food)
-
-//        drawDonutChart(food)
+        val foodChartFragment = fragmentManager.findFragmentById(R.id.foodChartDetail) as? FragmentFoodChart
+        foodChartFragment?.setNutrientInfo(food)
 
         // set protein
         // set carbs

@@ -9,12 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView
 
 
-class FoodChart : Fragment() {
+class FragmentFoodChart : Fragment() {
     val colorProtein = "#B477FD"
     val colorCarbs = "#5CECC9"
     val colorFat = "#FFD15A"
@@ -23,6 +24,11 @@ class FoodChart : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_food_chart, container, false)
+    }
+
+    fun setNutrientInfo(food: Food) {
+        drawDonutChart(food)
+        setNutrientTextViews(food)
     }
 
     fun drawDonutChart(food: Food) {
@@ -59,5 +65,15 @@ class FoodChart : Fragment() {
 //            value.setTarget(Math.random().toFloat() * 30 + 15)
 //        }
 //        pieChartView.startDataAnimation()
+    }
+
+    fun setNutrientTextViews(food: Food) {
+        val tvProteinAmt = view?.findViewById<TextView>(R.id.tvProteinAmt)
+        val tvCarbsAmt = view?.findViewById<TextView>(R.id.tvCarbsAmt)
+        val tvFatAmt = view?.findViewById<TextView>(R.id.tvFatAmt)
+
+        tvProteinAmt?.text = "${food.getProtein()}g"
+        tvCarbsAmt?.text = "${food.getTotalCarbohydrate()}g"
+        tvFatAmt?.text = "${food.getTotalFat()}g"
     }
 }

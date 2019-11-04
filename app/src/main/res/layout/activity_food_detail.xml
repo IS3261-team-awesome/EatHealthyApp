@@ -53,7 +53,7 @@
 
         <fragment
             android:id="@+id/foodChartDetail"
-            android:name="com.eathealthyapp.is3261.eathealthyapp.FoodChart"
+            android:name="com.eathealthyapp.is3261.eathealthyapp.FragmentFoodChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_food_chart" />

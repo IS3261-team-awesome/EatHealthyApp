@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">EatHealthyApp</string>
     <string name="price">price</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="protein_label">Protein label</string>
+    <string name="protein">Protein</string>
+    <string name="carbs_label">Carbs label</string>
+    <string name="fat_label">Fat label</string>
+    <string name="carbs">Carbs</string>
+    <string name="fat">Fat</string>
+    <string name="nutrient_amt_placeholder">54g</string>
 </resources>

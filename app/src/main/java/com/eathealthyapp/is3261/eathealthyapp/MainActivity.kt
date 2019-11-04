@@ -2,8 +2,8 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +34,12 @@ class MainActivity : AppCompatActivity() {
         val button4 = findViewById<View>(R.id.button4)
         button4.setOnClickListener {
             val intent = Intent(this, ActivityFoodHistory::class.java)
+            startActivity(intent)
+        }
+
+        val button5 = findViewById<View>(R.id.buttonMain)
+        button5.setOnClickListener {
+            val intent = Intent(this, ActivityHome::class.java)
             startActivity(intent)
         }
     }
