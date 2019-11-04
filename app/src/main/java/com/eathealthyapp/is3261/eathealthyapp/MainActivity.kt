@@ -11,12 +11,11 @@ import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.widget.Toast
+import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentPageAdaptor
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentScanner
 
 class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
-    val PROCESS_QRCODE_REQUEST = 1
 
     var allPermissionsGrantedFlag: Int = 0
 
@@ -30,26 +29,13 @@ class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Camera is a dangerous permission, we need to re-ask permission here
-        // if newer or equal to marshamellow version
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (allPermissionsEnabled()) {
-                // all permissions granted, no need to do anything
-                allPermissionsGrantedFlag = 1
-            } else {
-                setupMultiplePermissions()
-            }
-            // if older android versions dunnid do this
-        } else {
-            // it must be older than Marshmallow. As long as AndroidManifest.xml
-            // specifies the permissions, nothing else needs to be done
-            allPermissionsGrantedFlag = 1
-        }
+        requestAllPermission()
 
         // Set viewpager
         val fragmentPageAdaptor = FragmentPageAdaptor(supportFragmentManager)
         viewPager = findViewById<ViewPager>(R.id.myvp)
         viewPager.adapter = fragmentPageAdaptor
+        viewPager.offscreenPageLimit = 3
         viewPager.currentItem = 1
 
         // To make camera and detection start only when it is on camera fragment
@@ -72,6 +58,42 @@ class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
         btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_camera)
         btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_diary)
         btmTabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_wallet)
+    }
+
+    override fun onReceiveDataFromScanner(foodText: String) {
+        viewPager.currentItem = 1
+        Toast.makeText(this, "YES IT WORKED " + foodText, Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(this, ActivityPayment::class.java)
+        intent.putExtra("FOOD_TEXT", foodText)
+        startActivity(intent)
+    }
+
+
+
+
+
+
+
+
+
+    //----------------------------- Request for permission stuffs ---------------------------------
+    private fun requestAllPermission() {
+        // Camera is a dangerous permission, we need to re-ask permission here
+        // if newer or equal to marshamellow version
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (allPermissionsEnabled()) {
+                // all permissions granted, no need to do anything
+                allPermissionsGrantedFlag = 1
+            } else {
+                setupMultiplePermissions()
+            }
+            // if older android versions dunnid do this
+        } else {
+            // it must be older than Marshmallow. As long as AndroidManifest.xml
+            // specifies the permissions, nothing else needs to be done
+            allPermissionsGrantedFlag = 1
+        }
     }
 
     // For this method only required a certain minsdk then dunnid specify in manifest
@@ -107,25 +129,5 @@ class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
                 }
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // AFter qrcode is detected
-        if (requestCode == PROCESS_QRCODE_REQUEST && resultCode == RESULT_OK) run {
-            val scannedText = data?.getStringExtra("SCANNEDTEXT")
-            Log.d("MainActivity", "Scanned text string = " + scannedText)
-
-            // Set to payment page
-            val intent = Intent(this, ActivityPayment::class.java)
-            intent.putExtra("FOODITEM", scannedText)
-            startActivity(intent)
-        }
-    }
-
-    override fun onReceiveDataFromScanner(data: String) {
-        viewPager.currentItem = 1
-        Toast.makeText(this, "YES IT WORKED " + data, Toast.LENGTH_SHORT).show()
     }
 }

@@ -4,13 +4,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 class ActivityPayment : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
-        val foodText = intent.getStringExtra("FOODITEM")
+        val foodText = intent.getStringExtra("FOOD_TEXT")
 
         val paymentInfoTV = findViewById<TextView>(R.id.paymentInfoTV)
         paymentInfoTV.setText(foodText)
@@ -18,6 +19,8 @@ class ActivityPayment : AppCompatActivity() {
         confirmBtn.setOnClickListener {
             // Deduct from balance
             handlePayment()
+            // Notify main activity of new food item
+            notifyNewFoodItem()
             // Return to main screen
             finish()
         }
@@ -29,5 +32,11 @@ class ActivityPayment : AppCompatActivity() {
     }
 
     fun handlePayment() {
+        Toast.makeText(this, "Successfully paid!", Toast.LENGTH_LONG).show()
+        // Minus from current balance
+    }
+
+    fun notifyNewFoodItem() {
+        // Do an intent to put data, and change main activity to startActivityForResult()
     }
 }

@@ -1,4 +1,4 @@
-package com.eathealthyapp.is3261.eathealthyapp
+package com.eathealthyapp.is3261.eathealthyapp.fragments
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

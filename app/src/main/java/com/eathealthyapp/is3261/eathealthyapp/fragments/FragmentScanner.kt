@@ -94,8 +94,8 @@ class FragmentScanner : Fragment() {
         barcodeDetector.release()
     }
 
-    fun passDataToMainActivity(data: String) {
-        dataReceiver.onReceiveDataFromScanner(data)
+    fun passDataToMainActivity(foodText: String) {
+        dataReceiver.onReceiveDataFromScanner(foodText)
     }
 
     interface ReceiverOfScanner {
