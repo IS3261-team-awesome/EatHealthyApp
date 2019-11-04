@@ -1,41 +1,131 @@
 package com.eathealthyapp.is3261.eathealthyapp
 
-import android.app.Activity
+import android.Manifest
+import android.annotation.TargetApi
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.support.annotation.RequiresApi
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
+import android.util.Log
+import android.widget.Toast
+import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentScanner
 
-class MainActivity : AppCompatActivity() {
-    lateinit var myCamera : MyCamera
+class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
+    val PROCESS_QRCODE_REQUEST = 1
+
+    var allPermissionsGrantedFlag: Int = 0
+
+    lateinit var viewPager: ViewPager
+
+    private val permissionList = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_FINE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button1 = findViewById<View>(R.id.button1)
-        button1.setOnClickListener {
-            val intent = Intent(this, ActivityTopup::class.java)
-            startActivity(intent)
+        // Camera is a dangerous permission, we need to re-ask permission here
+        // if newer or equal to marshamellow version
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (allPermissionsEnabled()) {
+                // all permissions granted, no need to do anything
+                allPermissionsGrantedFlag = 1
+            } else {
+                setupMultiplePermissions()
+            }
+            // if older android versions dunnid do this
+        } else {
+            // it must be older than Marshmallow. As long as AndroidManifest.xml
+            // specifies the permissions, nothing else needs to be done
+            allPermissionsGrantedFlag = 1
         }
 
-        val button2 = findViewById<View>(R.id.button2)
-        button2.setOnClickListener {
-            myCamera = MyCamera(this)
-            myCamera.dispatchTakePictureIntent()
+        // Set viewpager
+        val fragmentPageAdaptor = FragmentPageAdaptor(supportFragmentManager)
+        viewPager = findViewById<ViewPager>(R.id.myvp)
+        viewPager.adapter = fragmentPageAdaptor
+        viewPager.currentItem = 1
+
+        // To make camera and detection start only when it is on camera fragment
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageSelected(position: Int) {
+                val scannerFragment: FragmentScanner = fragmentPageAdaptor.getItem(0) as FragmentScanner
+                if (position == 0) {
+                    scannerFragment.startDetection()
+                } else {
+                    scannerFragment.stopDetection()
+                }
+            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+
+        // Setup Btm Tab
+        val btmTabLayout = findViewById<TabLayout>(R.id.btmViewPagerTabLayout)
+        btmTabLayout.setupWithViewPager(viewPager)
+        btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_camera)
+        btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_diary)
+        btmTabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_wallet)
+    }
+
+    // For this method only required a certain minsdk then dunnid specify in manifest
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun allPermissionsEnabled(): Boolean {
+        return permissionList.none {
+            // it means items in checkSelfPermission
+            checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setupMultiplePermissions() {
+        val remainingPermissions = permissionList.filter {
+            checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED
+        }
+        requestPermissions(remainingPermissions.toTypedArray(), 101)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissionList: Array<out
+    String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissionList, grantResults)
+        if (requestCode == 101) {
+            if (grantResults.any { it != PackageManager.PERMISSION_GRANTED }) {
+                @TargetApi(Build.VERSION_CODES.M)
+                if (permissionList.any { shouldShowRequestPermissionRationale(it) }) {
+                    AlertDialog.Builder(this)
+                            .setMessage("Press Permissions to Decide Permission Again")
+                            .setPositiveButton("Permissions") { dialog, which -> setupMultiplePermissions() }
+                            .setNegativeButton("Cancel") { dialog, which -> dialog.dismiss() }
+                            .create()
+                            .show()
+                }
+            }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // After user took a photo
-        if (requestCode == myCamera.TAKE_PHOTO_REQUEST && resultCode == Activity.RESULT_OK) run {
-            // will try to decode qr code here
+        // AFter qrcode is detected
+        if (requestCode == PROCESS_QRCODE_REQUEST && resultCode == RESULT_OK) run {
+            val scannedText = data?.getStringExtra("SCANNEDTEXT")
+            Log.d("MainActivity", "Scanned text string = " + scannedText)
 
-            // delete photo after decoding process
-
-            // direct data to somewhere else to be saved
+            // Set to payment page
+            val intent = Intent(this, ActivityPayment::class.java)
+            intent.putExtra("FOODITEM", scannedText)
+            startActivity(intent)
         }
+    }
+
+    override fun onReceiveDataFromScanner(data: String) {
+        viewPager.currentItem = 1
+        Toast.makeText(this, "YES IT WORKED " + data, Toast.LENGTH_SHORT).show()
     }
 }

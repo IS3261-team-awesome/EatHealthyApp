@@ -7,13 +7,13 @@
 
     <TextView
         android:textAlignment="center"
-        android:text="How much would you like to top up?"
+        android:text="How much would you like to withdraw?"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
     <EditText
         android:inputType="number"
-        android:id="@+id/topup_edittext"
+        android:id="@+id/withdraw_edittext"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -28,6 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="exit dialog" />
+        android:text="cancel" />
 
 </LinearLayout>

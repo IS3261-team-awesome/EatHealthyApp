@@ -4,30 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.eathealthyapp.is3261.eathealthyapp.ActivityTopup">
+    tools:context="com.eathealthyapp.is3261.eathealthyapp.ActivityPayment">
 
     <TextView
-        android:textSize="30sp"
-        android:paddingTop="100dp"
-        android:textAlignment="center"
-        android:text="Your current balance is..."
+        android:id="@+id/paymentInfoTV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2" />
-    <TextView
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:text="testing123"
-        android:id="@+id/balance_textview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_weight="8"
+        android:text="not yet done" />
+
     <Button
-        android:id="@+id/top_up_button"
+        android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Press to topup balance" />
+        android:text="Confirm" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Cancel" />
+
 
 </LinearLayout>
