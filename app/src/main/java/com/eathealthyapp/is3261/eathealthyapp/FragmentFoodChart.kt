@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,6 @@ class FragmentFoodChart : Fragment() {
     }
 
     fun drawDonutChart(food: Food) {
-        Log.i("draw chart for food: ", food.getName())
         val pieChartView = view?.findViewById<PieChartView>(R.id.foodChart)
 
         val pieData = ArrayList<SliceValue>()
