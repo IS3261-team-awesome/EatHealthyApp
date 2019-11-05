@@ -41,6 +41,11 @@ class ActivityHome : AppCompatActivity() {
             carbs = it.carbs
             fat = it.fat
 
+
+            // date = it.date
+            // if (date is selectedDate)
+            //     addFoodToList (food)
+
             val food = Food(name, price, calories, protein, carbs, fat)
             addFoodToList(food)
         }

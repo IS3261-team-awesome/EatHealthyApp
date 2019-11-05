@@ -18,17 +18,17 @@ class FragmentFoodListItem : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        name = arguments.getString("name")
-        calories = arguments.getInt("calories")
-        protein = arguments.getInt("protein")
-        carbs = arguments.getInt("carbs")
-        fat = arguments.getInt("fat")
+        name = arguments?.getString("name")
+        calories = arguments?.getInt("calories")
+        protein = arguments?.getInt("protein")
+        carbs = arguments?.getInt("carbs")
+        fat = arguments?.getInt("fat")
 
         setNutrientInfo(name, calories, protein, carbs, fat)
         return inflater.inflate(R.layout.fragment_food_list_item, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setNutrientInfo(name, calories, protein, carbs, fat)
     }

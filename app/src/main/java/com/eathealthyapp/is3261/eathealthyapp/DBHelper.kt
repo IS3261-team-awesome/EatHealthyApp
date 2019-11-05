@@ -38,7 +38,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    // TODO: check if food in entry. if so, delete entry and add with +1 count
+    // TODO: check if food in entry. if so, update count +1
     fun insertFood(food: FoodRecord): Boolean {
         val db = writableDatabase
         val values = ContentValues()

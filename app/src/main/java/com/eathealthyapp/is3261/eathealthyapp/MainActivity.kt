@@ -10,6 +10,7 @@ import android.view.View
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.RequiresApi
+import android.widget.Button
 import android.widget.Toast
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentManager
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentScanner
@@ -31,6 +32,13 @@ class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
 
         fragmentManager = FragmentManager(this)
         fragmentManager.setUp()
+
+
+        val btn = findViewById<Button>(R.id.btnFoodHistory)
+        btn.setOnClickListener {
+            val intent = Intent(this, ActivityFoodHistory::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onReceiveDataFromScanner(foodText: String) {

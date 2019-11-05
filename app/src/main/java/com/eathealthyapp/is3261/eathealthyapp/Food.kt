@@ -6,19 +6,8 @@ class Food (
 //        private var timeAdded: Date,
         private var calories: Int,
         private var totalFat: Int,
-//        private var saturatedFat: Number,
-//        private var transFat: Number,
-//        private var cholesterol: Number,
-//        private var sodium: Number,
         private var totalCarbohydrate: Int,
-//        private var dietaryFiber: Number,
-//        private var sugars: Number,
         private var protein: Int
-//        private var potassium: Number,
-//        private var vitaminA: Number,
-//        private var vitaminC: Number,
-//        private var calcium: Number,
-//        private var iron: Number
 
 ) {
     fun getName(): String {
