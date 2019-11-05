@@ -2,7 +2,6 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,28 +9,42 @@ import android.widget.TextView
 
 
 class FragmentFoodListItem : Fragment() {
+    var name: String? = null
+    var calories: Int? = null
+    var protein: Int? = null
+    var carbs: Int? = null
+    var fat: Int? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        Log.i("created", "created")
 
+        name = arguments.getString("name")
+        calories = arguments.getInt("calories")
+        protein = arguments.getInt("protein")
+        carbs = arguments.getInt("carbs")
+        fat = arguments.getInt("fat")
+
+        setNutrientInfo(name, calories, protein, carbs, fat)
         return inflater.inflate(R.layout.fragment_food_list_item, container, false)
     }
 
-    fun setNutrientInfo(food: Food) {
-        val name = view?.findViewById<TextView>(R.id.tvFoodItemName)
-        val calories = view?.findViewById<TextView>(R.id.tvFoodItemCalories)
-        val protein = view?.findViewById<TextView>(R.id.tvFoodItemProtein)
-        val carbs = view?.findViewById<TextView>(R.id.tvFoodItemCarbs)
-        val fat = view?.findViewById<TextView>(R.id.tvFoodItemFat)
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setNutrientInfo(name, calories, protein, carbs, fat)
+    }
 
-        Log.i("?", view.toString())
+    fun setNutrientInfo(name: String?, calories: Int?, protein: Int?, carbs: Int?, fat: Int?) {
+        val tvName = view?.findViewById<TextView>(R.id.tvFoodItemName)
+        val tvCalories = view?.findViewById<TextView>(R.id.tvFoodItemCalories)
+        val tvProtein = view?.findViewById<TextView>(R.id.tvFoodItemProtein)
+        val tvCarbs = view?.findViewById<TextView>(R.id.tvFoodItemCarbs)
+        val tvFat = view?.findViewById<TextView>(R.id.tvFoodItemFat)
 
-
-        name?.text = food.getName()
-        calories?.text = food.getCalories().toString()
-        protein?.text = food.getProtein().toString()
-        carbs?.text = food.getTotalCarbohydrate().toString()
-        fat?.text = food.getTotalFat().toString()
+        tvName?.text = name
+        tvCalories?.text = calories.toString()
+        tvProtein?.text = protein.toString()
+        tvCarbs?.text = carbs.toString()
+        tvFat?.text = fat.toString()
     }
 
     fun viewFoodDetailScreen(food: Food) {
