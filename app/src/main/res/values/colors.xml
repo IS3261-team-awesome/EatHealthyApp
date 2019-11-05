@@ -8,4 +8,7 @@
     <color name="purple">#B477FD</color>
     <color name="green">#5CECC9</color>
     <color name="yellow">#FFD15A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="orange">#E54D4F</color>
+    <color name="grey">#ECECEC</color>
 </resources>

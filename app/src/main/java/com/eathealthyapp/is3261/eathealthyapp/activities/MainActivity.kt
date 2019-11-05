@@ -7,20 +7,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.os.Build
 import android.support.annotation.RequiresApi
+import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageButton
 import com.eathealthyapp.is3261.eathealthyapp.R
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentManager
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnTouchListener {
 
-    var allPermissionsGrantedFlag: Int = 0
     lateinit var fragmentManager: FragmentManager
-
-    private val permissionList = arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_FINE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +30,54 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.setup()
 
         val camBtn = findViewById<ImageButton>(R.id.cam_btn)
-        camBtn.setOnClickListener {
-            val camIntent = Intent(this, ActivityScanner::class.java)
-            startActivity(camIntent)
+        camBtn.setOnTouchListener(this)
+    }
+
+    override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+        when (motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                view.background.setColorFilter(resources.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP)
+                view.invalidate()
+            }
+            MotionEvent.ACTION_CANCEL -> {
+                view.background.clearColorFilter()
+                view.invalidate()
+            }
+            MotionEvent.ACTION_UP -> {
+                view.background.clearColorFilter()
+                view.invalidate()
+                // If user's touch up is still in the button
+                if (touchUpInButton(motionEvent, view)) {
+                    val camIntent = Intent(this, ActivityScanner::class.java)
+                    startActivity(camIntent)
+                }
+            }
         }
+        return true
+    }
+
+    //If user touched down and up a button within button space
+    fun touchUpInButton(motionEvent: MotionEvent, view: View): Boolean {
+        val buttonPosition = IntArray(2)
+        view.getLocationOnScreen(buttonPosition)
+
+        if (motionEvent.rawX >= buttonPosition[0] && motionEvent.rawX <= buttonPosition[0] + view.width) {
+            if (motionEvent.rawY >= buttonPosition[1] && motionEvent.rawY <= buttonPosition[1] + view.height) {
+                return true
+            }
+        }
+        return false
     }
 
 
 
 
     //----------------------------- Request for permission stuffs ---------------------------------
+    var allPermissionsGrantedFlag: Int = 0
+    private val permissionList = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_FINE_LOCATION)
+
     private fun requestAllPermission() {
         // Camera is a dangerous permission, we need to re-ask permission here
         // if newer or equal to marshamellow version
