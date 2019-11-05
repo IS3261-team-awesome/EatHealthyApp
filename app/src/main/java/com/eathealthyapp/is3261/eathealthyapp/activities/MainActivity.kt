@@ -10,11 +10,17 @@ import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.os.Build
 import android.support.annotation.RequiresApi
-import android.view.MotionEvent
-import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TableLayout
 import com.eathealthyapp.is3261.eathealthyapp.R
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentManager
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
+import android.view.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+
 
 class MainActivity : AppCompatActivity(), View.OnTouchListener {
 
@@ -30,6 +36,19 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
         fragmentManager.setup()
 
         val camBtn = findViewById<ImageButton>(R.id.cam_btn)
+        // Make cambtn be a circle no matter screen size
+        val viewTreeObserver = camBtn.viewTreeObserver
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    camBtn.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val p = LinearLayout.LayoutParams(camBtn.height, camBtn.height)
+                    p.gravity = Gravity.CENTER
+                    p.topMargin = camBtn.height/10
+                    camBtn.layoutParams = p
+                }
+            })
+        }
         camBtn.setOnTouchListener(this)
     }
 
