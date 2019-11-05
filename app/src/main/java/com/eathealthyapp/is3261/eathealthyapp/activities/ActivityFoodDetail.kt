@@ -1,4 +1,4 @@
-package com.eathealthyapp.is3261.eathealthyapp
+package com.eathealthyapp.is3261.eathealthyapp.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.eathealthyapp.is3261.eathealthyapp.*
+import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFoodChart
 
 
 class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {

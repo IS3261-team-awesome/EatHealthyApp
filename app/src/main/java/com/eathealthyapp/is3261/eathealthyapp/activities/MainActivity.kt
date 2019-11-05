@@ -1,4 +1,4 @@
-package com.eathealthyapp.is3261.eathealthyapp
+package com.eathealthyapp.is3261.eathealthyapp.activities
 
 import android.Manifest
 import android.annotation.TargetApi
@@ -6,16 +6,14 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.RequiresApi
-import android.widget.Button
-import android.widget.Toast
+import android.widget.ImageButton
+import com.eathealthyapp.is3261.eathealthyapp.R
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentManager
-import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentScanner
 
-class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
+class MainActivity : AppCompatActivity() {
 
     var allPermissionsGrantedFlag: Int = 0
     lateinit var fragmentManager: FragmentManager
@@ -31,29 +29,14 @@ class MainActivity : AppCompatActivity(), FragmentScanner.ReceiverOfScanner {
         requestAllPermission()
 
         fragmentManager = FragmentManager(this)
-        fragmentManager.setUp()
+        fragmentManager.setup()
 
-
-        val btn = findViewById<Button>(R.id.btnFoodHistory)
-        btn.setOnClickListener {
-            val intent = Intent(this, ActivityFoodHistory::class.java)
-            startActivity(intent)
+        val camBtn = findViewById<ImageButton>(R.id.cam_btn)
+        camBtn.setOnClickListener {
+            val camIntent = Intent(this, ActivityScanner::class.java)
+            startActivity(camIntent)
         }
     }
-
-    override fun onReceiveDataFromScanner(foodText: String) {
-        fragmentManager.setSelectedFragment(1)
-        Toast.makeText(this, "YES IT WORKED " + foodText, Toast.LENGTH_SHORT).show()
-
-        val paymentIntent = Intent(this, ActivityPayment::class.java)
-        intent.putExtra("FOOD_TEXT", foodText)
-        startActivity(paymentIntent)
-    }
-
-
-
-
-
 
 
 

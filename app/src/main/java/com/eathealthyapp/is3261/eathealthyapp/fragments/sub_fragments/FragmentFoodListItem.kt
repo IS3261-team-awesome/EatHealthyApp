@@ -1,11 +1,15 @@
-package com.eathealthyapp.is3261.eathealthyapp
+package com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.eathealthyapp.is3261.eathealthyapp.Food
+import com.eathealthyapp.is3261.eathealthyapp.R
+import com.eathealthyapp.is3261.eathealthyapp.activities.ActivityFoodDetail
 
 
 class FragmentFoodListItem : Fragment() {
@@ -17,6 +21,13 @@ class FragmentFoodListItem : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_food_list_item, container, false)
+
+        // Set on click listener for this fragment
+        view.setOnClickListener {
+            val intent = Intent(context, ActivityFoodDetail::class.java)
+            startActivity(intent)
+        }
 
         name = arguments?.getString("name")
         calories = arguments?.getInt("calories")
@@ -25,7 +36,8 @@ class FragmentFoodListItem : Fragment() {
         fat = arguments?.getInt("fat")
 
         setNutrientInfo(name, calories, protein, carbs, fat)
-        return inflater.inflate(R.layout.fragment_food_list_item, container, false)
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

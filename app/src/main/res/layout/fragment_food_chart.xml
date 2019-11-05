@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FragmentFoodChart">
+    tools:context=".fragments.sub_fragments.FragmentFoodChart">
 
     <lecho.lib.hellocharts.view.PieChartView
         android:id="@+id/foodChart"

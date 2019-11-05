@@ -1,8 +1,10 @@
-package com.eathealthyapp.is3261.eathealthyapp.fragments
+package com.eathealthyapp.is3261.eathealthyapp.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.*
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.*
 import com.eathealthyapp.is3261.eathealthyapp.R
@@ -16,31 +18,25 @@ import java.io.IOException
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentScanner : Fragment() {
+class ActivityScanner : AppCompatActivity() {
 
-    lateinit var dataReceiver: ReceiverOfScanner
     lateinit var barcodeDetector: BarcodeDetector
     lateinit var cameraSource: CameraSource
     lateinit var cameraView: SurfaceView
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        dataReceiver = context as ReceiverOfScanner
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_scanner)
+
+        startDetection()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main_scanner, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        cameraView = view.findViewById<SurfaceView>(R.id.surfaceView)
-        barcodeDetector = BarcodeDetector.Builder(context)
+    fun startDetection() {
+        cameraView = findViewById<SurfaceView>(R.id.surfaceView)
+        barcodeDetector = BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build()
-        cameraSource = CameraSource.Builder(context, barcodeDetector)
+        cameraSource = CameraSource.Builder(this, barcodeDetector)
                 .setRequestedPreviewSize(640, 480)
                 .build()
 
@@ -59,10 +55,7 @@ class FragmentScanner : Fragment() {
                 cameraSource.stop()
             }
         })
-    }
 
-    // Method used by main activity
-    fun startDetection() {
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
             override fun release() {
             }
@@ -74,7 +67,7 @@ class FragmentScanner : Fragment() {
                     val scannedText: String? = barcodes?.valueAt(0)?.displayValue;
 
                     // Vibrate and release barcode dectector
-                    val vibrator = context!!.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     if (Build.VERSION.SDK_INT >= 26) {
                         vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
                     } else {
@@ -82,23 +75,16 @@ class FragmentScanner : Fragment() {
                     }
                     barcodeDetector.release()
 
-                    // Update changes in main activity
-                    activity!!.runOnUiThread(Runnable {passDataToMainActivity(scannedText!!)})
+                    finish()
+                    goToPaymentPage(scannedText!!)
                 }
             }
         })
     }
 
-    // Method used by main activity
-    fun stopDetection() {
-        barcodeDetector.release()
-    }
-
-    fun passDataToMainActivity(foodText: String) {
-        dataReceiver.onReceiveDataFromScanner(foodText)
-    }
-
-    interface ReceiverOfScanner {
-        fun onReceiveDataFromScanner(data: String)
+    fun goToPaymentPage(scannedText: String){
+        val paymentIntent = Intent(this, ActivityPayment::class.java)
+        intent.putExtra("FOOD_TEXT", scannedText)
+        startActivity(paymentIntent)
     }
 }

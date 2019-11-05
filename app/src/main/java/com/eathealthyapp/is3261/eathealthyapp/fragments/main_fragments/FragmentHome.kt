@@ -1,26 +1,39 @@
-package com.eathealthyapp.is3261.eathealthyapp
+package com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments
+
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
+import com.eathealthyapp.is3261.eathealthyapp.DBHelper
+import com.eathealthyapp.is3261.eathealthyapp.Food
+import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFoodListItem
+import com.eathealthyapp.is3261.eathealthyapp.R
 
 
-class ActivityHome : AppCompatActivity() {
+/**
+ * A simple [Fragment] subclass.
+ */
+class FragmentHome : Fragment() {
     lateinit var foodDBHelper: DBHelper
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-
-        foodDBHelper = DBHelper(this)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_main_home, container, false)
+        foodDBHelper = DBHelper(context!!)
         populateFoodList()
 
-        val btn = findViewById<Button>(R.id.btnTest)
+        val btn = view.findViewById<Button>(R.id.btnTest)
         btn.setOnClickListener {
             // TODO: add food from qr
             val food = Food("Lemon Juice", 3.00f, 1000, 302, 13, 100)
             addFoodToList(food)
         }
+
+        return view
     }
 
     fun populateFoodList() {
@@ -64,7 +77,7 @@ class ActivityHome : AppCompatActivity() {
 
         foodListItem.setArguments(bundle)
 
-        val fragmentManager = supportFragmentManager
+        val fragmentManager = activity!!.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         transaction.add(R.id.foodListContainer, foodListItem)
         transaction.commit()

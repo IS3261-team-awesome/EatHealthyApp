@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp">
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/btmViewPagerTabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </android.support.design.widget.TabLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/btmViewPagerTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.design.widget.TabLayout>
+
+        <ImageButton
+            android:id="@+id/cam_btn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_camera" />
 
     </RelativeLayout>
 

@@ -14,20 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ActivityHome"></activity>
-        <activity android:name=".ActivityFoodHistory" />
-        <activity android:name=".ActivityFoodDetail" />
+        <activity android:name=".ActivityFoodHistory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ActivityFoodDetail"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ActivityPayment"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ActivityScanner"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityPayment"
-            android:screenOrientation="portrait"/>
-
 
     </application>
 

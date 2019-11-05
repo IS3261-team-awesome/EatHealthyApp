@@ -1,4 +1,4 @@
-package com.eathealthyapp.is3261.eathealthyapp
+package com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments
 
 
 import android.graphics.Color
@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.eathealthyapp.is3261.eathealthyapp.Food
+import com.eathealthyapp.is3261.eathealthyapp.R
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView

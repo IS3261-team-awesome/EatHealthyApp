@@ -1,4 +1,4 @@
-package com.eathealthyapp.is3261.eathealthyapp.fragments
+package com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments
 
 
 import android.app.Dialog

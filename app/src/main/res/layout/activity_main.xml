@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.eathealthyapp.is3261.eathealthyapp.MainActivity">
+    tools:context="com.eathealthyapp.is3261.eathealthyapp.activities.MainActivity">
 
     <!--Middle ViewPager-->
     <RelativeLayout
@@ -14,7 +14,7 @@
         android:layout_weight="13"
         android:background="@android:color/background_light">
 
-        <android.support.v4.view.ViewPager
+        <com.eathealthyapp.is3261.eathealthyapp.utils.NonSwipeableViewPager
             android:id="@+id/myvp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,48 +31,5 @@
 
         <include layout="@layout/merge_btm_tab" />
     </RelativeLayout>
-
-    <!--<Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Wallet" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Camera" />
-
-    <FrameLayout
-        android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </FrameLayout>
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="go to food detail page" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="go to food history page" />-->
-
-    <Button
-        android:id="@+id/btnFoodHistory"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Go to food history" />
 
 </LinearLayout>

@@ -9,7 +9,7 @@
     android:paddingTop="28dp"
     android:paddingEnd="12dp"
     android:paddingBottom="28dp"
-    tools:context=".FragmentFoodListItem">
+    tools:context=".fragments.sub_fragments.FragmentFoodListItem">
 
 
     <TextView
