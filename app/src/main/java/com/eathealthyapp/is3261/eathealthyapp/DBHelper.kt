@@ -13,10 +13,15 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val DATABASE_NAME = "Food.db"
     }
 
+    // TODO: add count
     private val SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FoodTable.TABLE_NAME + " (" +
                     FoodTable.COLUMN_NAME + " TEXT PRIMARY KEY," +
-                    FoodTable.COLUMN_CALORIES + " TEXT)"
+                    FoodTable.COLUMN_PRICE + " TEXT," +
+                    FoodTable.COLUMN_CALORIES + " TEXT," +
+                    FoodTable.COLUMN_PROTEIN + " TEXT," +
+                    FoodTable.COLUMN_CARBS + " TEXT," +
+                    FoodTable.COLUMN_FAT + " TEXT)"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + FoodTable.TABLE_NAME
 
@@ -33,17 +38,23 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         onUpgrade(db, oldVersion, newVersion)
     }
 
+    // TODO: check if food in entry. if so, delete entry and add with +1 count
     fun insertFood(food: FoodRecord): Boolean {
         val db = writableDatabase
         val values = ContentValues()
 
         values.put(FoodTable.COLUMN_NAME, food.name)
+        values.put(FoodTable.COLUMN_PRICE, food.price)
         values.put(FoodTable.COLUMN_CALORIES, food.calories)
+        values.put(FoodTable.COLUMN_PROTEIN, food.protein)
+        values.put(FoodTable.COLUMN_CARBS, food.carbs)
+        values.put(FoodTable.COLUMN_FAT, food.fat)
 
         db.insert(FoodTable.TABLE_NAME, null, values)
         return true
     }
 
+    // TODO: check if food in entry (count > 1). if so, update existing entry with -1 count
     fun deleteFood(name: String): Boolean {
         val db = writableDatabase
         val selection = FoodTable.COLUMN_NAME + " LIKES ?"
@@ -57,18 +68,35 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val db = writableDatabase
         var cursor: Cursor? = null
         try {
-            cursor = db.rawQuery("select * from " +
+            cursor = db.rawQuery("SELECT * FROM " +
                     FoodTable.TABLE_NAME + " WHERE " +
                     FoodTable.COLUMN_NAME + "=" + name + "", null)
         } catch (e: SQLiteException) {
             db.execSQL(SQL_CREATE_ENTRIES)
             return ArrayList()
         }
+        var price: Float
         var calories: Int
+        var protein: Int
+        var carbs: Int
+        var fat: Int
+
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
+                price = cursor.getFloat(cursor.getColumnIndex(FoodTable.COLUMN_PRICE))
                 calories = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_CALORIES))
-                food.add(FoodRecord(name, calories))
+                protein = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_PROTEIN))
+                carbs = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_CARBS))
+                fat = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_FAT))
+
+                food.add(FoodRecord(
+                        name,
+                        price,
+                        calories,
+                        protein,
+                        carbs,
+                        fat))
+
                 cursor.moveToNext()
             } }
         return food
@@ -78,18 +106,34 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val db = writableDatabase
         var cursor: Cursor? = null
         try {
-            cursor = db.rawQuery("select * from " + FoodTable.TABLE_NAME, null)
+            cursor = db.rawQuery("SELECT * FROM " + FoodTable.TABLE_NAME, null)
         } catch (e: SQLiteException) {
             db.execSQL(SQL_CREATE_ENTRIES)
             return ArrayList()
         }
         var name: String
+        var price: Float
         var calories: Int
+        var protein: Int
+        var carbs: Int
+        var fat: Int
+
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
                 name = cursor.getString(cursor.getColumnIndex(FoodTable.COLUMN_NAME))
+                price = cursor.getFloat(cursor.getColumnIndex(FoodTable.COLUMN_PRICE))
                 calories = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_CALORIES))
-                food.add(FoodRecord(name, calories))
+                protein = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_PROTEIN))
+                carbs = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_CARBS))
+                fat = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_FAT))
+                food.add(FoodRecord(
+                        name,
+                        price,
+                        calories,
+                        protein,
+                        carbs,
+                        fat))
+
                 cursor.moveToNext()
             }
         }

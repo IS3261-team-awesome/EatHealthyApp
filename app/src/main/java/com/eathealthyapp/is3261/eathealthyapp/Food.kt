@@ -2,18 +2,18 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 class Food (
         private var name: String,
-        private var price: Number,
-//        private var time: Date,
-        private var calories: Number,
-        private var totalFat: Number,
+        private var price: Float,
+//        private var timeAdded: Date,
+        private var calories: Int,
+        private var totalFat: Int,
 //        private var saturatedFat: Number,
 //        private var transFat: Number,
 //        private var cholesterol: Number,
 //        private var sodium: Number,
-        private var totalCarbohydrate: Number,
+        private var totalCarbohydrate: Int,
 //        private var dietaryFiber: Number,
 //        private var sugars: Number,
-        private var protein: Number
+        private var protein: Int
 //        private var potassium: Number,
 //        private var vitaminA: Number,
 //        private var vitaminC: Number,
@@ -25,7 +25,7 @@ class Food (
         return name
     }
 
-    fun getPrice(): Number {
+    fun getPrice(): Float {
         return price
     }
 
@@ -33,15 +33,15 @@ class Food (
         price = newPrice;
     }
 //
-//    fun getTime(): Date {
+//    fun getTimeAdded(): Date {
 //        return time
 //    }
 
-    fun getCalories(): Number {
+    fun getCalories(): Int {
         return calories
     }
 
-    fun getTotalFat(): Number {
+    fun getTotalFat(): Int {
         return totalFat
     }
 //
@@ -61,7 +61,7 @@ class Food (
 //        return sodium
 //    }
 //
-    fun getTotalCarbohydrate(): Number {
+    fun getTotalCarbohydrate(): Int {
         return totalCarbohydrate
     }
 //
@@ -73,7 +73,7 @@ class Food (
 //        return sugars
 //    }
 //
-    fun getProtein(): Number {
+    fun getProtein(): Int {
         return protein
     }
 //

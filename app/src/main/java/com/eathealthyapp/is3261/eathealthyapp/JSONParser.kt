@@ -43,11 +43,11 @@ class JSONParser(private var c: Context,
             var foodObject = JSONObject(jsonData)
 
             food = Food(foodName,
-                    5.00, // TODO: set price
+                    5f, // TODO: set price
                     getCalories(foodObject).toInt(),
-                    getFat(foodObject).toInt(),
+                    getProtein(foodObject).toInt(),
                     getCarbs(foodObject).toInt(),
-                    getProtein(foodObject).toInt())
+                    getFat(foodObject).toInt())
 
             return true
         } catch (e: JSONException) {

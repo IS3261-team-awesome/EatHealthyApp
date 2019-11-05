@@ -9,13 +9,10 @@ import android.widget.TextView
 
 
 class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
-    lateinit var foodDBHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
-
-        foodDBHelper = DBHelper(this)
 
         val input = findViewById<EditText>(R.id.editTextfoodName)
 
@@ -55,14 +52,5 @@ class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
         val fragmentManager = supportFragmentManager
         val foodChartFragment = fragmentManager.findFragmentById(R.id.foodChartDetail) as? FragmentFoodChart
         foodChartFragment?.setNutrientInfo(food)
-
-        // set protein
-        // set carbs
-        // set fat
-    }
-
-    // TODO: add to db
-    fun addFoodToDB(food: FoodRecord) {
-        foodDBHelper.insertFood(food)
     }
 }
