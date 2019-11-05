@@ -6,19 +6,53 @@
     android:orientation="vertical"
     tools:context="com.eathealthyapp.is3261.eathealthyapp.MainActivity">
 
-    <Button
+    <!--Middle ViewPager-->
+    <RelativeLayout
+        android:id="@+id/midsection"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="13"
+        android:background="@android:color/background_light">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/myvp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+    </RelativeLayout>
+
+    <!--Btm Navigation Tab-->
+    <RelativeLayout
+        android:id="@+id/btmtab"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <include layout="@layout/merge_btm_tab" />
+    </RelativeLayout>
+
+    <!--<Button
         android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="go to topup page" />
+        android:text="Wallet" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="go to scan qr code page" />
+        android:text="Camera" />
+
+    <FrameLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/button3"
@@ -32,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="go to food history page" />
+        android:text="go to food history page" />-->
 
     <Button
         android:id="@+id/buttonMain"
