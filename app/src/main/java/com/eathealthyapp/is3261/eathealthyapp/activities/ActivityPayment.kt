@@ -26,8 +26,8 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
         println(stallName)
 
 
-        val paymentInfoTV = findViewById<TextView>(R.id.paymentInfoTV)
-        paymentInfoTV.text = foodDescription
+        val paymentAmountTV = findViewById<TextView>(R.id.amountTV)
+        paymentAmountTV.text = foodDescription
         val confirmBtn = findViewById<Button>(R.id.confirmButton)
         confirmBtn.setOnClickListener {
             // Deduct from balance

@@ -22,7 +22,7 @@ class FragmentManager(val activity: MainActivity) {
         // Setup Btm Tab
         val btmTabLayout = activity.findViewById<TabLayout>(R.id.btmViewPagerTabLayout)
         btmTabLayout.setupWithViewPager(viewPager)
-        btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_color)
+        btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_selected)
         btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_wallet)
         btmTabLayout.setSelectedTabIndicatorHeight(0)
 
@@ -38,11 +38,11 @@ class FragmentManager(val activity: MainActivity) {
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {
                 if (position == 0) {
-                    btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_color)
+                    btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home_selected)
                     btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_wallet)
                 } else if (position == 1) {
                     btmTabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_home)
-                    btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_wallet_color)
+                    btmTabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_wallet_selected)
                 }
             }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}

@@ -1,6 +1,5 @@
 package com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 
@@ -86,7 +85,8 @@ class FragmentHome : Fragment() {
                     food.getProtein(),
                     food.getTotalCarbohydrate(),
                     food.getTotalFat(),
-                    food.getDateAdded()))
+                    food.getDateAdded())
+            )
 
             emptyFoodList()
             populateFoodList()
@@ -144,7 +144,7 @@ class FragmentHome : Fragment() {
         bundle.putInt("carbs", food.getTotalCarbohydrate())
         bundle.putInt("fat", food.getTotalFat())
 
-        foodListItem.setArguments(bundle)
+        foodListItem.arguments = bundle
 
         val fragmentManager = activity!!.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()

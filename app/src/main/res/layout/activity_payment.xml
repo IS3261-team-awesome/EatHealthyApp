@@ -7,7 +7,7 @@
     tools:context="com.eathealthyapp.is3261.eathealthyapp.activities.ActivityPayment">
 
     <TextView
-        android:id="@+id/paymentInfoTV"
+        android:id="@+id/amountTV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8"

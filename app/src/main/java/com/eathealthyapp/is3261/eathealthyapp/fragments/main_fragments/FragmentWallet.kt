@@ -42,7 +42,7 @@ class FragmentWallet : Fragment() {
 
         // Set up widgets and their functionality
         balanceTextView = view.findViewById<TextView>(R.id.balance_textview)
-        balanceTextView.setText(currentBalance.toString())
+        setBalanceText(currentBalance)
 
         val topupButton = view.findViewById<View>(R.id.top_up_button)
         topupButton.setOnClickListener {
@@ -75,7 +75,7 @@ class FragmentWallet : Fragment() {
                 editor.apply()
 
                 // Change balance display
-                balanceTextView.setText(currentBalance.toString())
+                setBalanceText(currentBalance)
 
                 // Exit
                 dialog.dismiss()
@@ -115,7 +115,7 @@ class FragmentWallet : Fragment() {
                     editor.apply()
 
                     // Change balance display
-                    balanceTextView.setText(currentBalance.toString())
+                    setBalanceText(currentBalance)
 
                     // Exit
                     dialog.dismiss()
@@ -130,5 +130,9 @@ class FragmentWallet : Fragment() {
         }
 
         dialog.show()
+    }
+
+    fun setBalanceText(currentBalance: Int) {
+        balanceTextView.setText("$" + currentBalance.toString())
     }
 }
