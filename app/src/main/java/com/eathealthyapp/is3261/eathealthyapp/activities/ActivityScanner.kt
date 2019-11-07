@@ -57,14 +57,16 @@ class ActivityScanner : AppCompatActivity() {
         })
 
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
+            lateinit var scannedText: String
             override fun release() {
+                goToPaymentPage(scannedText)
             }
 
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 val barcodes = detections?.detectedItems
                 if (barcodes?.size() != 0) {
                     // Get scanned text from qr code
-                    val scannedText: String? = barcodes?.valueAt(0)?.displayValue;
+                    scannedText = barcodes?.valueAt(0)?.displayValue!!
 
                     // Vibrate and release barcode dectector
                     val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -74,17 +76,15 @@ class ActivityScanner : AppCompatActivity() {
                         vibrator.vibrate(200);
                     }
                     barcodeDetector.release()
-
-                    finish()
-                    goToPaymentPage(scannedText!!)
                 }
             }
         })
     }
 
-    fun goToPaymentPage(scannedText: String){
+    fun goToPaymentPage(scannedText: String?){
         val paymentIntent = Intent(this, ActivityPayment::class.java)
-        intent.putExtra("FOOD_TEXT", scannedText)
+        paymentIntent.putExtra("SCANNEDTEXT", scannedText)
         startActivity(paymentIntent)
+        finish()
     }
 }
