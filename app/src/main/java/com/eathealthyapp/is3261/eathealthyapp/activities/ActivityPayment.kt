@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.eathealthyapp.is3261.eathealthyapp.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ActivityPayment : AppCompatActivity(), OnFoodParsed {
     lateinit var foodDBHelper: DBHelper
@@ -17,17 +19,23 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
 
         foodDBHelper = DBHelper(this)
 
-        val foodText = intent.getStringExtra("FOOD_TEXT")
+        // scannedText is in the format: foodDesciption-stallName-base price
+        val scannedText = intent.getStringExtra("SCANNEDTEXT")
+        val scannedTextParts = scannedText.split("-", limit = 2)
+        val foodDescription = scannedTextParts[0]
+        val stallName = scannedTextParts[1]
+        println(foodDescription)
+        println(stallName)
+
 
         val paymentInfoTV = findViewById<TextView>(R.id.paymentInfoTV)
-        paymentInfoTV.setText(foodText)
+        paymentInfoTV.text = foodDescription
         val confirmBtn = findViewById<Button>(R.id.confirmButton)
         confirmBtn.setOnClickListener {
             // Deduct from balance
             handlePayment()
             // Notify main activity of new food item
-//            notifyNewFoodItem()
-            getFoodItemInfo(" 1 apple")
+            parseFoodAndAddToDb(scannedText)
             // Return to main screen
             finish()
         }
@@ -40,18 +48,13 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
 
     fun handlePayment() {
         Toast.makeText(this, "Successfully paid!", Toast.LENGTH_LONG).show()
-        // Minus from current balance
+        // TODO: Minus from current balance
     }
 
     // foodName format : 1 apple
-    fun getFoodItemInfo(foodName: String) {
+    fun parseFoodAndAddToDb(foodName: String) {
+        // Automatically parse and add to db
         InternetJSON(this, this, foodName).execute()
-    }
-
-    fun notifyNewFoodItem() {
-        // Do an intent to put data, and change main activity to startActivityForResult()
-        // Call API (Inte
-        // addFoodToDB()
     }
 
     override fun OnFoodParsed(food: Food) {
@@ -61,7 +64,10 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
                 food.getCalories(),
                 food.getProtein(),
                 food.getTotalCarbohydrate(),
-                food.getTotalFat())
+                food.getTotalFat(),
+                food.getDayAdded(),
+                food.getMonthAdded(),
+                food.getYearAdded())
         addFoodToDB(foodRecord)
 
         // TODO: go to food detail (jolyn)

@@ -40,7 +40,6 @@ class InternetJSON(private var c: Context, private var listener: OnFoodParsed, p
         } else {
             JSONParser(c, listener, jsonData, query).execute()
         }
-
     }
 
     private fun connect(jsonURL: String): Any {
@@ -63,6 +62,7 @@ class InternetJSON(private var c: Context, private var listener: OnFoodParsed, p
         }
     }
 
+    // gives to edamam to parse into json data then change format to return as string
     private fun download():String {
         val jsonURL = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${query}"
         val connection = connect(jsonURL)

@@ -12,12 +12,8 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TableLayout
 import com.eathealthyapp.is3261.eathealthyapp.R
 import com.eathealthyapp.is3261.eathealthyapp.fragments.FragmentManager
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
 import android.view.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 
@@ -69,6 +65,7 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
                 if (touchUpInButton(motionEvent, view)) {
                     val camIntent = Intent(this, ActivityScanner::class.java)
                     startActivity(camIntent)
+                    overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_up)
                 }
             }
         }

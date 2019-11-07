@@ -34,7 +34,10 @@ class ActivityFoodHistory : AppCompatActivity(), OnFoodParsed {
                 food.getCalories(),
                 food.getProtein(),
                 food.getTotalCarbohydrate(),
-                food.getTotalFat())
+                food.getTotalFat(),
+                food.getDayAdded(),
+                food.getMonthAdded(),
+                food.getYearAdded())
         addFoodToDB(foodRecord)
         displayFood()
     }

@@ -7,7 +7,10 @@ class Food (
         private var calories: Int,
         private var totalFat: Int,
         private var totalCarbohydrate: Int,
-        private var protein: Int
+        private var protein: Int,
+        private var dayAdded: Int,
+        private var monthAdded: Int,
+        private var yearAdded: Int
 
 ) {
     fun getName(): String {
@@ -97,4 +100,17 @@ class Food (
     fun getFatPerc(): Float {
         return totalFat.toFloat() / calories.toFloat() * 100
     }
+
+    fun getDayAdded(): Int {
+        return dayAdded
+    }
+
+    fun getMonthAdded(): Int {
+        return monthAdded
+    }
+
+    fun getYearAdded(): Int {
+        return yearAdded
+    }
+
 }

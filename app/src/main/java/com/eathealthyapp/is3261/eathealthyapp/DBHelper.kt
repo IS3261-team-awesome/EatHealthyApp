@@ -21,7 +21,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                     FoodTable.COLUMN_CALORIES + " TEXT," +
                     FoodTable.COLUMN_PROTEIN + " TEXT," +
                     FoodTable.COLUMN_CARBS + " TEXT," +
-                    FoodTable.COLUMN_FAT + " TEXT)"
+                    FoodTable.COLUMN_FAT + " TEXT," +
+                    FoodTable.COLUMN_DAY + " TEXT," +
+                    FoodTable.COLUMN_MONTH + " TEXT," +
+                    FoodTable.COLUMN_YEAR + " TEXT)"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + FoodTable.TABLE_NAME
 
@@ -49,6 +52,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         values.put(FoodTable.COLUMN_PROTEIN, food.protein)
         values.put(FoodTable.COLUMN_CARBS, food.carbs)
         values.put(FoodTable.COLUMN_FAT, food.fat)
+        values.put(FoodTable.COLUMN_DAY, food.day)
+        values.put(FoodTable.COLUMN_MONTH, food.month)
+        values.put(FoodTable.COLUMN_YEAR, food.year)
 
         db.insert(FoodTable.TABLE_NAME, null, values)
         return true
@@ -80,6 +86,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         var protein: Int
         var carbs: Int
         var fat: Int
+        var day: Int
+        var month: Int
+        var year: Int
 
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
@@ -88,6 +97,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 protein = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_PROTEIN))
                 carbs = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_CARBS))
                 fat = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_FAT))
+                day = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_DAY))
+                month = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_MONTH))
+                year = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_YEAR))
 
                 food.add(FoodRecord(
                         name,
@@ -95,7 +107,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                         calories,
                         protein,
                         carbs,
-                        fat))
+                        fat,
+                        day,
+                        month,
+                        year))
 
                 cursor.moveToNext()
             } }
@@ -117,6 +132,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         var protein: Int
         var carbs: Int
         var fat: Int
+        var day: Int
+        var month: Int
+        var year: Int
 
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
@@ -126,13 +144,20 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 protein = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_PROTEIN))
                 carbs = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_CARBS))
                 fat = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_FAT))
+                day = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_DAY))
+                month = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_MONTH))
+                year = cursor.getInt(cursor.getColumnIndex(FoodTable.COLUMN_YEAR))
+
                 food.add(FoodRecord(
                         name,
                         price,
                         calories,
                         protein,
                         carbs,
-                        fat))
+                        fat,
+                        day,
+                        month,
+                        year))
 
                 cursor.moveToNext()
             }

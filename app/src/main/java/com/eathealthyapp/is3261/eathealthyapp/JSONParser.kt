@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import android.widget.Toast
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 interface OnFoodParsed {
     fun OnFoodParsed(food: Food);
@@ -47,7 +48,13 @@ class JSONParser(private var c: Context,
                     getCalories(foodObject).toInt(),
                     getProtein(foodObject).toInt(),
                     getCarbs(foodObject).toInt(),
-                    getFat(foodObject).toInt())
+                    getFat(foodObject).toInt(),
+                    Calendar.getInstance().time.day,
+                    Calendar.getInstance().time.month,
+                    2019)
+            // TODO: find a way to get year  added in a proper format
+
+
 
             return true
         } catch (e: JSONException) {
