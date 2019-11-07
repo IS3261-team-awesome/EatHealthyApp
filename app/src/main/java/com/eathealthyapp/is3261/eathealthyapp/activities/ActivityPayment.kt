@@ -7,8 +7,6 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.eathealthyapp.is3261.eathealthyapp.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ActivityPayment : AppCompatActivity(), OnFoodParsed {
     lateinit var foodDBHelper: DBHelper
@@ -65,9 +63,7 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
                 food.getProtein(),
                 food.getTotalCarbohydrate(),
                 food.getTotalFat(),
-                food.getDayAdded(),
-                food.getMonthAdded(),
-                food.getYearAdded())
+                food.getDateAdded())
         addFoodToDB(foodRecord)
 
         // TODO: go to food detail (jolyn)

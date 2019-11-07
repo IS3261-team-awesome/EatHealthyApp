@@ -3,6 +3,7 @@ package com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +16,8 @@ import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFo
 import com.eathealthyapp.is3261.eathealthyapp.R
 import java.text.SimpleDateFormat
 import java.util.*
-import android.os.Build
 import com.eathealthyapp.is3261.eathealthyapp.FoodRecord
+import kotlin.collections.ArrayList
 
 
 /**
@@ -24,60 +25,72 @@ import com.eathealthyapp.is3261.eathealthyapp.FoodRecord
  */
 class FragmentHome : Fragment() {
     lateinit var foodDBHelper: DBHelper
-    lateinit var currentCalendar: Calendar
+    var currentCalenderPage: Calendar = Calendar.getInstance()
+    val listOfFoodFragments: ArrayList<Fragment> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_home, container, false)
+
         foodDBHelper = DBHelper(context!!)
+        updateFoodChart()
         populateFoodList()
 
-        val btn = view.findViewById<Button>(R.id.btnTest)
-        btn.setOnClickListener {
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val dateTV = view.findViewById<TextView>(R.id.dateTV)
+        dateTV.text = getDateString(currentCalenderPage)
+
+        val leftBtn = view.findViewById<ImageButton>(R.id.leftBtn)
+        leftBtn.setOnClickListener {
+            // Update date
+            currentCalenderPage.add(Calendar.DAY_OF_YEAR, -1)
+            dateTV.text = getDateString(currentCalenderPage)
+            // Update food List
+            emptyFoodList()
+            populateFoodList()
+            // Update food chart
+            updateFoodChart()
+        }
+        val rightBtn = view.findViewById<ImageButton>(R.id.rightBtn)
+        rightBtn.setOnClickListener {
+            // Update date
+            currentCalenderPage.add(Calendar.DAY_OF_YEAR, 1)
+            dateTV.text = getDateString(currentCalenderPage)
+            // Update food List
+            emptyFoodList()
+            populateFoodList()
+            // Update food chart
+            updateFoodChart()
+        }
+
+        val testbtn = view.findViewById<Button>(R.id.btnTest)
+        testbtn.setOnClickListener {
             // TODO: add food from qr
-            val food = Food("Lemon burger", 3.00f, 1000, 302, 13, 100, 7, 10, 2019)
+            val food = Food("Milk tea",
+                    3.00f,
+                    1000,
+                    302,
+                    13,
+                    100,
+                    "08 Nov 2019")
+
             foodDBHelper.insertFood(FoodRecord(food.getName(),
                     food.getPrice(),
                     food.getCalories(),
                     food.getProtein(),
                     food.getTotalCarbohydrate(),
                     food.getTotalFat(),
-                    food.getDayAdded(),
-                    food.getMonthAdded(),
-                    food.getYearAdded()))
+                    food.getDateAdded()))
 
-            // Refresh page
-            val ft = fragmentManager!!.beginTransaction()
-            if (Build.VERSION.SDK_INT >= 26) {
-                ft.setReorderingAllowed(false)
-            }
-            ft.detach(this).attach(this).commit()
+            emptyFoodList()
+            populateFoodList()
         }
-
-        val dateTV = view.findViewById<TextView>(R.id.dateTV)
-        currentCalendar = Calendar.getInstance()
-        dateTV.text = getDateString(currentCalendar)
-
-        val leftBtn = view.findViewById<ImageButton>(R.id.leftBtn)
-        leftBtn.setOnClickListener {
-
-            currentCalendar.add(Calendar.DAY_OF_YEAR, -1)
-            dateTV.text = getDateString(currentCalendar)
-
-            // Update food chart
-            updateFoodChart()
-        }
-        val rightBtn = view.findViewById<ImageButton>(R.id.rightBtn)
-        rightBtn.setOnClickListener {
-            // Update Date
-            currentCalendar.add(Calendar.DAY_OF_YEAR, 1)
-            dateTV.text = getDateString(currentCalendar)
-
-            updateFoodChart()
-        }
-
-        return view
     }
 
     fun populateFoodList() {
@@ -89,9 +102,7 @@ class FragmentHome : Fragment() {
         var protein: Int
         var carbs: Int
         var fat: Int
-        var dayAdded: Int
-        var monthAdded: Int
-        var yearAdded: Int
+        var dateAdded: String
 
         foodRecord.forEach {
             name = it.name
@@ -100,31 +111,19 @@ class FragmentHome : Fragment() {
             protein = it.protein
             carbs = it.carbs
             fat = it.fat
-            dayAdded = it.day
-            monthAdded = it.month
-            yearAdded = it.year
+            dateAdded = it.date
 
-            val date = Date()
-            println("--------------------------")
-            println(Calendar.getInstance().time.date)
-            println(dayAdded)
-            println(Calendar.getInstance().time.month)
-            println(monthAdded)
-            println(2019)
-            println(yearAdded)
-            if (dayAdded == Calendar.getInstance().time.date &&
-                    monthAdded == Calendar.getInstance().time.month &&
-                    yearAdded == 2019) {
-                // TODO: find a way to get year  added in a proper format
+            println("----------------------------")
+            println(dateAdded)
+            println(getDateString(currentCalenderPage))
+            if (dateAdded.equals(getDateString(currentCalenderPage))) {
                 val food = Food(name,
                         price,
                         calories,
                         protein,
                         carbs,
                         fat,
-                        dayAdded,
-                        monthAdded,
-                        yearAdded)
+                        dateAdded)
 
                 addFoodToList(food)
             }
@@ -133,6 +132,9 @@ class FragmentHome : Fragment() {
 
     fun addFoodToList(food: Food) {
         val foodListItem = FragmentFoodListItem()
+
+        // add to a list so that it can be removed ltr
+        listOfFoodFragments.add(foodListItem)
 
         val bundle = Bundle()
         bundle.putString("name", food.getName())
@@ -148,6 +150,13 @@ class FragmentHome : Fragment() {
         val transaction = fragmentManager.beginTransaction()
         transaction.add(R.id.foodListContainer, foodListItem)
         transaction.commit()
+    }
+
+    fun emptyFoodList() {
+        for (fragment in listOfFoodFragments) {
+            activity!!.supportFragmentManager.beginTransaction().remove(fragment).commit()
+        }
+        listOfFoodFragments.clear()
     }
 
     fun getDateString(calendar: Calendar): String {

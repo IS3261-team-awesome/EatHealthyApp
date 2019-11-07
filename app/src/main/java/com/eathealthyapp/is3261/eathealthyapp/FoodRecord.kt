@@ -6,6 +6,4 @@ class FoodRecord(val name: String,
                  val protein: Int,
                  val carbs: Int,
                  val fat: Int,
-                 val day: Int,
-                 val month: Int,
-                 val year: Int)
+                 val date: String)

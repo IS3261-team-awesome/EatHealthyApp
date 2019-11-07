@@ -3,8 +3,10 @@ package com.eathealthyapp.is3261.eathealthyapp
 import android.content.Context
 import android.os.AsyncTask
 import android.widget.Toast
+import com.eathealthyapp.is3261.eathealthyapp.R.id.dateTV
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
 
 interface OnFoodParsed {
@@ -43,18 +45,17 @@ class JSONParser(private var c: Context,
         try {
             var foodObject = JSONObject(jsonData)
 
+            val currentCalendar = Calendar.getInstance()
+            val dateFormat = SimpleDateFormat("dd MMM yyyy")
+            val dateString = dateFormat.format(currentCalendar.time)
+
             food = Food(foodName,
                     5f, // TODO: set price
                     getCalories(foodObject).toInt(),
                     getProtein(foodObject).toInt(),
                     getCarbs(foodObject).toInt(),
                     getFat(foodObject).toInt(),
-                    Calendar.getInstance().time.day,
-                    Calendar.getInstance().time.month,
-                    2019)
-            // TODO: find a way to get year  added in a proper format
-
-
+                    dateString)
 
             return true
         } catch (e: JSONException) {

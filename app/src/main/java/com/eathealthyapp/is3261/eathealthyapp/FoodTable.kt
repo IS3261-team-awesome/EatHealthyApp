@@ -11,9 +11,7 @@ class FoodTable : BaseColumns {
         val COLUMN_PROTEIN = "protein"
         val COLUMN_CARBS = "carbs"
         val COLUMN_FAT = "fat"
-        val COLUMN_DAY = "day"
-        val COLUMN_MONTH = "month"
-        val COLUMN_YEAR = "year"
+        val COLUMN_DATE = "date"
         val COLUMN_ID = "id"
     }
 }

@@ -3,15 +3,11 @@ package com.eathealthyapp.is3261.eathealthyapp
 class Food (
         private var name: String,
         private var price: Float,
-//        private var timeAdded: Date,
         private var calories: Int,
         private var totalFat: Int,
         private var totalCarbohydrate: Int,
         private var protein: Int,
-        private var dayAdded: Int,
-        private var monthAdded: Int,
-        private var yearAdded: Int
-
+        private var date: String
 ) {
     fun getName(): String {
         return name
@@ -101,16 +97,7 @@ class Food (
         return totalFat.toFloat() / calories.toFloat() * 100
     }
 
-    fun getDayAdded(): Int {
-        return dayAdded
+    fun getDateAdded(): String {
+        return date
     }
-
-    fun getMonthAdded(): Int {
-        return monthAdded
-    }
-
-    fun getYearAdded(): Int {
-        return yearAdded
-    }
-
 }
