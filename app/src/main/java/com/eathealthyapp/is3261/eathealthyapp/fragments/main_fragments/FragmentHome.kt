@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.os.Build
 import com.eathealthyapp.is3261.eathealthyapp.FoodRecord
-import java.time.LocalDate
 
 
 /**

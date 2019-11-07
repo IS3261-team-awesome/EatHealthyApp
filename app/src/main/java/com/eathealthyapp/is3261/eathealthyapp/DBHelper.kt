@@ -14,9 +14,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     // TODO: add count
+
     private val SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FoodTable.TABLE_NAME + " (" +
-                    FoodTable.COLUMN_NAME + " TEXT PRIMARY KEY," +
+                    FoodTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    FoodTable.COLUMN_NAME + " TEXT," +
                     FoodTable.COLUMN_PRICE + " TEXT," +
                     FoodTable.COLUMN_CALORIES + " TEXT," +
                     FoodTable.COLUMN_PROTEIN + " TEXT," +
@@ -70,7 +72,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return true
     }
 
-    fun readFood(name: String): ArrayList<FoodRecord> { val food = ArrayList<FoodRecord>()
+    fun readFood(name: String): ArrayList<FoodRecord> {
+        val food = ArrayList<FoodRecord>()
         val db = writableDatabase
         var cursor: Cursor? = null
         try {
@@ -113,11 +116,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                         year))
 
                 cursor.moveToNext()
-            } }
+            }
+        }
         return food
     }
 
-    fun readAllFood(): ArrayList<FoodRecord> { val food = ArrayList<FoodRecord>()
+    fun readAllFood(): ArrayList<FoodRecord> {
+        val food = ArrayList<FoodRecord>()
         val db = writableDatabase
         var cursor: Cursor? = null
         try {

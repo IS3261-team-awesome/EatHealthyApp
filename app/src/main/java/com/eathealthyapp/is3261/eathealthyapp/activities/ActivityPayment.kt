@@ -35,7 +35,7 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
             // Deduct from balance
             handlePayment()
             // Notify main activity of new food item
-            parseFoodAndAddToDb(scannedText)
+            parseFoodAndAddToDb(foodDescription)
             // Return to main screen
             finish()
         }
