@@ -60,6 +60,7 @@ class FragmentWallet : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_wallet_topup)
+        dialog.window.decorView.setBackgroundResource(android.R.color.transparent)
 
         val topupEditText = dialog.findViewById<EditText>(R.id.topup_edittext)
         val confirmButton = dialog.findViewById<Button>(R.id.confirm_button)
@@ -96,6 +97,7 @@ class FragmentWallet : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_wallet_withdraw)
+        dialog.window.decorView.setBackgroundResource(android.R.color.transparent)
 
         val withdrawEditText = dialog.findViewById<EditText>(R.id.withdraw_edittext)
         val confirmButton = dialog.findViewById<Button>(R.id.confirm_button)
@@ -106,7 +108,7 @@ class FragmentWallet : Fragment() {
 
                 val uncheckedCurrentBalance = currentBalance - withdrawAmount
                 if (uncheckedCurrentBalance < 0) {
-                    Toast.makeText(context, "Insufficient ammount to withdraw", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Insufficient amount", Toast.LENGTH_SHORT).show()
                 } else {
                     // Save data
                     currentBalance = uncheckedCurrentBalance
