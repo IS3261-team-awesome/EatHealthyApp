@@ -81,6 +81,7 @@ class ActivityScanner : AppCompatActivity() {
         })
     }
 
+    // TODO: Go to selection page instead of payment page
     fun goToPaymentPage(scannedText: String?){
         val paymentIntent = Intent(this, ActivityPayment::class.java)
         paymentIntent.putExtra("SCANNEDTEXT", scannedText)

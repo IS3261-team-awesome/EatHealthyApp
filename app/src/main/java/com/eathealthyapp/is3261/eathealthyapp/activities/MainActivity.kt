@@ -85,9 +85,6 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
         return false
     }
 
-
-
-
     //----------------------------- Request for permission stuffs ---------------------------------
     var allPermissionsGrantedFlag: Int = 0
     private val permissionList = arrayOf(

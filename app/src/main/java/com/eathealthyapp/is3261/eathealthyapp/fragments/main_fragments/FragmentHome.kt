@@ -1,5 +1,6 @@
 package com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 
@@ -70,7 +71,6 @@ class FragmentHome : Fragment() {
 
         val testbtn = view.findViewById<Button>(R.id.btnTest)
         testbtn.setOnClickListener {
-            // TODO: add food from qr
             val food = Food("Milk tea",
                     3.00f,
                     1000,
@@ -93,6 +93,13 @@ class FragmentHome : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        println("-------------------RESUMED")
+        emptyFoodList()
+        populateFoodList()
+    }
+
     fun populateFoodList() {
         var foodRecord = foodDBHelper.readAllFood()
 
@@ -113,9 +120,6 @@ class FragmentHome : Fragment() {
             fat = it.fat
             dateAdded = it.date
 
-            println("----------------------------")
-            println(dateAdded)
-            println(getDateString(currentCalenderPage))
             if (dateAdded.equals(getDateString(currentCalenderPage))) {
                 val food = Food(name,
                         price,
@@ -164,6 +168,7 @@ class FragmentHome : Fragment() {
         return dateFormat.format(calendar.time)
     }
 
+    // TODO: Fill in function for update chart
     fun updateFoodChart() {
 
     }

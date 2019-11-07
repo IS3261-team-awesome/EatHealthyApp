@@ -1,31 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.eathealthyapp.is3261.eathealthyapp.activities.ActivityPayment">
 
     <TextView
-        android:id="@+id/amountTV"
+        android:id="@+id/intakeCommentTV"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:text="not yet done" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="intake comment text view not done"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/foodNameTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="food name text view not done"
+        android:layout_below="@+id/intakeCommentTV"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/priceTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/foodNameTV"
+        android:gravity="center"
+        android:text="amount text view not done"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/priceTV"
+        android:gravity="center"
+        android:text="Paying to"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/stallNameTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv1"
+        android:gravity="center"
+        android:text="stall name text view not done"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Button
-        android:id="@+id/confirmButton"
+        android:id="@+id/confirm_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Confirm" />
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
+        android:layout_above="@id/cancel_button"
+        android:background="@drawable/shape_purple_button"
+        android:layout_marginBottom="20dp"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
 
     <Button
-        android:id="@+id/cancelButton"
+        android:id="@+id/cancel_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Cancel" />
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="50dp"
+        android:background="@drawable/shape_cancel_button"
+        android:text="Cancel"
+        android:textColor="@color/purple"
+        android:textStyle="bold"/>
 
 
-</LinearLayout>
+</RelativeLayout>
