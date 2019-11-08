@@ -32,58 +32,14 @@ class Food (
     fun getTotalFat(): Int {
         return totalFat
     }
-//
-//    fun getSaturatedFat(): Number {
-//        return saturatedFat
-//    }
-//
-//    fun getTransFat(): Number {
-//        return transFat
-//    }
-//
-//    fun getCholesterol(): Number {
-//        return cholesterol
-//    }
-//
-//    fun getSodium(): Number {
-//        return sodium
-//    }
-//
+
     fun getTotalCarbohydrate(): Int {
         return totalCarbohydrate
     }
-//
-//    fun getDietaryFiber(): Number {
-//        return dietaryFiber
-//    }
-//
-//    fun getSugars(): Number {
-//        return sugars
-//    }
-//
+
     fun getProtein(): Int {
         return protein
     }
-//
-//    fun getPotassium(): Number {
-//        return potassium
-//    }
-//
-//    fun getVitaminA(): Number {
-//        return vitaminA
-//    }
-//
-//    fun getVitaminC(): Number {
-//        return vitaminC
-//    }
-//
-//    fun getCalcium(): Number {
-//        return calcium
-//    }
-//
-//    fun getIron(): Number {
-//        return iron
-//    }
 
     fun getProteinPerc(): Float {
         return protein.toFloat() / calories.toFloat() * 100
