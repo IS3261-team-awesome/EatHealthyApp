@@ -3,6 +3,7 @@ package com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.eathealthyapp.is3261.eathealthyapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 import com.eathealthyapp.is3261.eathealthyapp.FoodRecord
+import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFoodChart
 import kotlin.collections.ArrayList
 
 
@@ -101,36 +103,9 @@ class FragmentHome : Fragment() {
     }
 
     fun populateFoodList() {
-        var foodRecord = foodDBHelper.readAllFood()
-
-        var name: String
-        var price: Float
-        var calories: Int
-        var protein: Int
-        var carbs: Int
-        var fat: Int
-        var dateAdded: String
-
-        foodRecord.forEach {
-            name = it.name
-            price = it.price
-            calories = it.calories
-            protein = it.protein
-            carbs = it.carbs
-            fat = it.fat
-            dateAdded = it.date
-
-            if (dateAdded.equals(getDateString(currentCalenderPage))) {
-                val food = Food(name,
-                        price,
-                        calories,
-                        protein,
-                        carbs,
-                        fat,
-                        dateAdded)
-
-                addFoodToList(food)
-            }
+        val foods = getAllFoodWithCurrentDate()
+        foods.forEach {
+            addFoodToList(it)
         }
     }
 
@@ -168,8 +143,45 @@ class FragmentHome : Fragment() {
         return dateFormat.format(calendar.time)
     }
 
-    // TODO: Fill in function for update chart
-    fun updateFoodChart() {
+    private fun updateFoodChart() {
+        val fragmentManager =  childFragmentManager
+        val foodChartFragment = fragmentManager.findFragmentById(R.id.foodChartMain) as? FragmentFoodChart
+        foodChartFragment?.setTotalNutrientInfo(getAllFoodWithCurrentDate())
+    }
 
+    private fun getAllFoodWithCurrentDate(): ArrayList<Food> {
+        var foods = ArrayList<Food>()
+        var foodRecord = foodDBHelper.readAllFood()
+
+        var name: String
+        var price: Float
+        var calories: Int
+        var protein: Int
+        var carbs: Int
+        var fat: Int
+        var dateAdded: String
+
+        foodRecord.forEach {
+            name = it.name
+            price = it.price
+            calories = it.calories
+            protein = it.protein
+            carbs = it.carbs
+            fat = it.fat
+            dateAdded = it.date
+
+            if (dateAdded.equals(getDateString(currentCalenderPage))) {
+                val food = Food(name,
+                        price,
+                        calories,
+                        protein,
+                        carbs,
+                        fat,
+                        dateAdded)
+
+                foods.add(food)
+            }
+        }
+        return foods
     }
 }
