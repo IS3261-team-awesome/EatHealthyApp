@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.eathealthyapp.is3261.eathealthyapp.FoodRecord
 import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFoodChart
+import com.eathealthyapp.is3261.eathealthyapp.utils.PriceCalculator
 import kotlin.collections.ArrayList
 
 
@@ -71,6 +72,7 @@ class FragmentHome : Fragment() {
             updateFoodChart()
         }
 
+        // TODO: move this part to after payment
         val testbtn = view.findViewById<Button>(R.id.btnTest)
         testbtn.setOnClickListener {
             val food = Food("Coffee",

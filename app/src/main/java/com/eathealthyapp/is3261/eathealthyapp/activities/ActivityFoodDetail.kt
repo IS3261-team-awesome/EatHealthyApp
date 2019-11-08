@@ -45,13 +45,12 @@ class ActivityFoodDetail : AppCompatActivity() {
         foodChartFragement?.setNutrientInfo(food)
 
         // set serving count
-        val count = foodDBHelper.readFood(food.getName()).size
+        val count = foodDBHelper.getFoodCount(food.getName())
         val tvServings = findViewById<TextView>(R.id.tvServings)
         var servingsText = "servings"
         if (count == 1) {
             servingsText = "serving"
         }
         tvServings.text = "$count $servingsText consumed today"
-
     }
 }
