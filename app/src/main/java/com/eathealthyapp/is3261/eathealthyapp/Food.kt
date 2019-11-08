@@ -1,5 +1,8 @@
 package com.eathealthyapp.is3261.eathealthyapp
 
+import android.os.Parcel
+import android.os.Parcelable
+
 class Food (
         private var name: String,
         private var price: Float,
@@ -8,7 +11,39 @@ class Food (
         private var totalCarbohydrate: Int,
         private var protein: Int,
         private var date: String
-) {
+) : Parcelable {
+
+    companion object {
+        @JvmField
+        val CREATOR = object : Parcelable.Creator<Food> {
+            override fun createFromParcel(parcel: Parcel) = Food(parcel)
+            override fun newArray(size: Int) = arrayOfNulls<Food>(size)
+        }
+    }
+
+    constructor(parcel: Parcel): this (
+            name = parcel.readString(),
+            price = parcel.readFloat(),
+            calories = parcel.readInt(),
+            totalFat = parcel.readInt(),
+            totalCarbohydrate = parcel.readInt(),
+            protein = parcel.readInt(),
+            date = parcel.readString()
+    )
+
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(name)
+        parcel.writeFloat(price)
+        parcel.writeInt(calories)
+        parcel.writeInt(totalFat)
+        parcel.writeInt(totalCarbohydrate)
+        parcel.writeInt(protein)
+        parcel.writeString(date)
+    }
+
+    override fun describeContents() = 0
+
     fun getName(): String {
         return name
     }
@@ -57,3 +92,4 @@ class Food (
         return date
     }
 }
+

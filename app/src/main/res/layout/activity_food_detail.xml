@@ -18,31 +18,38 @@
             android:background="?attr/colorPrimaryDark"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme">
+
             <TextView
                 android:id="@+id/tvfoodName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="" />
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/food_name_placeholder"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:typeface="normal" />
         </android.support.v7.widget.Toolbar>
 
         <TextView
-            android:id="@+id/textPriceLabel"
+            android:id="@+id/tvPriceLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="32dp"
             android:text="@string/price"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="#BDBDBD"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingTop="40dp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textPrice"
+            android:id="@+id/tvPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
+            android:paddingBottom="14dp"
             android:text="$4.00"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -58,42 +65,16 @@
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_food_chart" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#F3F3F3"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:text="Nutrition Facts"
-                android:textColor="#2A282E"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/editTextfoodName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Enter food name" />
-
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Get Nutrition Info" />
-
         <TextView
-            android:id="@+id/textViewfoodNutrition"
+            android:id="@+id/tvServings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Food Nutrition" />
+            android:layout_marginTop="18dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="3 servings consumed today"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccentDark"
+            android:textSize="18sp" />
+
     </LinearLayout>
 </ScrollView>

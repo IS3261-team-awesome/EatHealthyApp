@@ -74,7 +74,7 @@ class FragmentHome : Fragment() {
         val testbtn = view.findViewById<Button>(R.id.btnTest)
         testbtn.setOnClickListener {
             val food = Food("Milk tea",
-                    3.00f,
+                    3f,
                     1000,
                     302,
                     13,
@@ -104,8 +104,13 @@ class FragmentHome : Fragment() {
 
     fun populateFoodList() {
         val foods = getAllFoodWithCurrentDate()
-        foods.forEach {
-            addFoodToList(it)
+
+        if (foods.isEmpty()) {
+            // TODO: set empty image
+        } else {
+            foods.forEach {
+                addFoodToList(it)
+            }
         }
     }
 
@@ -116,6 +121,7 @@ class FragmentHome : Fragment() {
         listOfFoodFragments.add(foodListItem)
 
         val bundle = Bundle()
+        bundle.putParcelable("food", food)
         bundle.putString("name", food.getName())
         bundle.putFloat("price", food.getPrice())
         bundle.putInt("calories", food.getCalories())

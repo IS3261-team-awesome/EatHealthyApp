@@ -10,49 +10,33 @@ import com.eathealthyapp.is3261.eathealthyapp.*
 import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFoodChart
 
 
-class ActivityFoodDetail : AppCompatActivity(), OnFoodParsed {
+class ActivityFoodDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
 
-        val input = findViewById<EditText>(R.id.editTextfoodName)
+        val food = intent.getParcelableExtra<Food>("food")
 
-        val btnSubmit = findViewById<Button>(R.id.btnSubmit)
-        btnSubmit.setOnClickListener {
-            val query = input.text.toString()
-            InternetJSON(this, this, query).execute()
-        }
-
+        // set up toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp)
         toolbar.setNavigationOnClickListener{
             finish()
+            // TODO: remove after ocnverting this to fragment
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
-    }
 
-    override fun OnFoodParsed(food: Food) {
+        // set food name
+        val tvFoodName = findViewById<TextView>(R.id.tvfoodName)
+        tvFoodName.text = food.getName()
 
-        // temp
-        val tv = findViewById<TextView>(R.id.textViewfoodNutrition)
-        tv.text = "parse successful -- " +
-                food.getName() + " " +
-                food.getCalories() + " " +
-                food.getTotalFat() + " " +
-                food.getProtein() + " " +
-                food.getTotalCarbohydrate()
-
-        // temp
-        val foodNameTitle = findViewById<TextView>(R.id.tvfoodName)
-        foodNameTitle.text = food.getName()
-
-        // set price
-        val tvPrice = findViewById<TextView>(R.id.textPrice)
+        val tvPrice = findViewById<TextView>(R.id.tvPrice)
+        println(food.getPrice().toString())
         tvPrice.text = "$${String.format("%.2f", food.getPrice())}"
 
         val fragmentManager = supportFragmentManager
-        val foodChartFragment = fragmentManager.findFragmentById(R.id.foodChartDetail) as? FragmentFoodChart
-        foodChartFragment?.setNutrientInfo(food)
+        val foodChartFragement = fragmentManager.findFragmentById(R.id.foodChartDetail) as? FragmentFoodChart
+        foodChartFragement?.setNutrientInfo(food)
     }
 }
