@@ -73,7 +73,7 @@ class FragmentHome : Fragment() {
 
         val testbtn = view.findViewById<Button>(R.id.btnTest)
         testbtn.setOnClickListener {
-            val food = Food("Milk tea",
+            val food = Food("Coffee",
                     3f,
                     1000,
                     302,
@@ -122,13 +122,6 @@ class FragmentHome : Fragment() {
 
         val bundle = Bundle()
         bundle.putParcelable("food", food)
-        bundle.putString("name", food.getName())
-        bundle.putFloat("price", food.getPrice())
-        bundle.putInt("calories", food.getCalories())
-        bundle.putInt("protein", food.getProtein())
-        bundle.putInt("carbs", food.getTotalCarbohydrate())
-        bundle.putInt("fat", food.getTotalFat())
-
         foodListItem.arguments = bundle
 
         val fragmentManager = activity!!.supportFragmentManager

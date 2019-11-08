@@ -11,10 +11,13 @@ import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFo
 
 
 class ActivityFoodDetail : AppCompatActivity() {
+    lateinit var foodDBHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
+
+        foodDBHelper = DBHelper(this)
 
         val food = intent.getParcelableExtra<Food>("food")
 
@@ -31,12 +34,24 @@ class ActivityFoodDetail : AppCompatActivity() {
         val tvFoodName = findViewById<TextView>(R.id.tvfoodName)
         tvFoodName.text = food.getName()
 
+        // set price
         val tvPrice = findViewById<TextView>(R.id.tvPrice)
         println(food.getPrice().toString())
         tvPrice.text = "$${String.format("%.2f", food.getPrice())}"
 
+        // draw chart
         val fragmentManager = supportFragmentManager
         val foodChartFragement = fragmentManager.findFragmentById(R.id.foodChartDetail) as? FragmentFoodChart
         foodChartFragement?.setNutrientInfo(food)
+
+        // set serving count
+        val count = foodDBHelper.readFood(food.getName()).size
+        val tvServings = findViewById<TextView>(R.id.tvServings)
+        var servingsText = "servings"
+        if (count == 1) {
+            servingsText = "serving"
+        }
+        tvServings.text = "$count $servingsText consumed today"
+
     }
 }

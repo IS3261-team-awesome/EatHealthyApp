@@ -13,8 +13,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val DATABASE_NAME = "Food.db"
     }
 
-    // TODO: add count
-
     private val SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FoodTable.TABLE_NAME + " (" +
                     FoodTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -41,7 +39,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    // TODO: check if food in entry. if so, update count +1
     fun insertFood(food: FoodRecord): Boolean {
         val db = writableDatabase
         val values = ContentValues()
@@ -58,7 +55,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return true
     }
 
-    // TODO: check if food in entry (count > 1). if so, update existing entry with -1 count
     fun deleteFood(name: String): Boolean {
         val db = writableDatabase
         val selection = FoodTable.COLUMN_NAME + " LIKES ?"
@@ -73,9 +69,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val db = writableDatabase
         var cursor: Cursor? = null
         try {
-            cursor = db.rawQuery("SELECT * FROM " +
-                    FoodTable.TABLE_NAME + " WHERE " +
-                    FoodTable.COLUMN_NAME + "=" + name + "", null)
+            cursor = db.rawQuery("select * from " +
+                    FoodTable.TABLE_NAME + " WHERE "
+                    + FoodTable.COLUMN_NAME +
+                    "='" + name + "'", null)
         } catch (e: SQLiteException) {
             db.execSQL(SQL_CREATE_ENTRIES)
             return ArrayList()
