@@ -26,21 +26,11 @@ class PriceCalculator {
         fun getNewPrice(food: FoodRecord, foodDBHelper: DBHelper): Float {
             val foodList = getFoodListToday(foodDBHelper.readAllFood())
 
-            if (foodList.isEmpty()) {
-                return food.price
-            }
-
-            println(foodList)
             val macroRatioToday = getMacroRatioToday(foodList)
-            val test = "${macroRatioToday.protein} ${macroRatioToday.carbs} ${macroRatioToday.fat}"
-            println(test)
 
-            val proteinRatioDiff = RECOMMENDED_PROTEIN_RATIO - macroRatioToday.protein
-            println("prot " + proteinRatioDiff)
-            val carbsRatioDiff = RECOMMENDED_CARBS_RATIO - macroRatioToday.carbs
-            println("carb " + carbsRatioDiff)
-            val fatRatioDiff = RECOMMENDED_FAT_RATIO - macroRatioToday.fat
-            println("fat " + fatRatioDiff)
+            val proteinRatioDiff = getProteinRatioDiff(macroRatioToday.protein)
+            val carbsRatioDiff = getCarbsRatioDiff(macroRatioToday.carbs)
+            val fatRatioDiff = getFatRatioDiff(macroRatioToday.fat)
 
             return food.price *
                     (1 - proteinRatioDiff) *
@@ -49,7 +39,43 @@ class PriceCalculator {
                     (foodDBHelper.getFoodCount(food.name).toFloat() - RECOMMENDED_DAILY_SERVINGS) *
                     EXCEEDED_SERVINGS_PENALTY
         }
+
+        fun getMostExceededNutrient(food: FoodRecord, foodDBHelper: DBHelper): String {
+            val foodList = getFoodListToday(foodDBHelper.readAllFood())
+
+            val macroRatioToday = getMacroRatioToday(foodList)
+
+            val proteinRatioDiff = getProteinRatioDiff(macroRatioToday.protein)
+            val carbsRatioDiff = getCarbsRatioDiff(macroRatioToday.carbs)
+            val fatRatioDiff = getFatRatioDiff(macroRatioToday.fat)
+
+            var result = "protein"
+            var max = proteinRatioDiff
+
+            if (carbsRatioDiff > max) {
+                max = carbsRatioDiff
+                result = "carbohydrate"
+            }
+
+            if (fatRatioDiff > max) {
+                result = "fat"
+            }
+
+            return result
+        }
     }
+}
+
+private fun getProteinRatioDiff(protein: Float): Float {
+    return PriceCalculator.RECOMMENDED_PROTEIN_RATIO - protein
+}
+
+private fun getCarbsRatioDiff(carbs: Float): Float {
+    return PriceCalculator.RECOMMENDED_CARBS_RATIO - carbs
+}
+
+private fun getFatRatioDiff(fat: Float): Float {
+    return PriceCalculator.RECOMMENDED_FAT_RATIO - fat
 }
 
 private fun getFoodListToday(foodRecords: ArrayList<FoodRecord>): ArrayList<FoodRecord> {

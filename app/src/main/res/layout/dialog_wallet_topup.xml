@@ -1,45 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="40dp">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="80dp"
-        android:layout_weight="1"
-        android:text="Enter the amount you wish to top up below"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Enter amount to top up"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/colorAccentDark"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/topup_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="40dp"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:textColor="@color/white" />
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="$"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/topup_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/confirm_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="10dp"
-        android:layout_weight="1"
         android:background="@drawable/shape_confirm_button"
         android:text="confirm"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/exit_dialog_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="60dp"
         android:background="@drawable/shape_cancel_button"
         android:text="cancel"
-        android:textColor="@color/purple" />
+        android:textColor="@color/purple"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

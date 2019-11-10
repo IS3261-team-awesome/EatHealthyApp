@@ -16,7 +16,8 @@
             android:paddingTop="110dp"
             android:text="MY BALANCE"
             android:textColor="@color/colorDarkGray"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/balance_textview"
@@ -26,20 +27,22 @@
             android:gravity="center"
             android:text="testing123"
             android:textSize="45sp"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/top_up_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_above="@id/withdraw_button"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="50dp"
-            android:layout_above="@id/withdraw_button"
-            android:background="@drawable/shape_purple_button"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_purple_button"
             android:text="top up"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/withdraw_button"
@@ -47,12 +50,13 @@
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="100dp"
             android:layout_marginStart="50dp"
+            android:layout_marginBottom="102dp"
             android:background="@drawable/shape_grey_button"
             android:text="withdraw to bank account"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

@@ -53,7 +53,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         values.put(FoodTable.COLUMN_DATE, food.date)
 
         db.insert(FoodTable.TABLE_NAME, null, values)
-
         return true
     }
 
