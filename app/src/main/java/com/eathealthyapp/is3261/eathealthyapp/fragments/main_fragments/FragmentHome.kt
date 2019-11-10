@@ -75,30 +75,6 @@ class FragmentHome : Fragment() {
             // Update food chart
             updateFoodChart()
         }
-
-        // TODO: move this part to after payment
-        val testbtn = view.findViewById<Button>(R.id.btnTest)
-        testbtn.setOnClickListener {
-            val food = Food("Coffee",
-                    2f,
-                    415,
-                    302,
-                    13,
-                    100,
-                    "10 Nov 2019")
-
-            foodDBHelper.insertFood(FoodRecord(food.getName(),
-                    food.getPrice(),
-                    food.getCalories(),
-                    food.getProtein(),
-                    food.getTotalCarbohydrate(),
-                    food.getTotalFat(),
-                    food.getDateAdded())
-            )
-
-            emptyFoodList()
-            populateFoodList()
-        }
     }
 
     override fun onResume() {

@@ -80,12 +80,6 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnTest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-
                 <ImageView
                     android:id="@+id/ivBurger"
                     android:layout_width="120dp"
