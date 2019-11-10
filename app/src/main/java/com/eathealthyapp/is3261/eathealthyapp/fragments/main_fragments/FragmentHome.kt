@@ -76,11 +76,11 @@ class FragmentHome : Fragment() {
         testbtn.setOnClickListener {
             val food = Food("Coffee",
                     3f,
-                    1000,
+                    415,
                     302,
                     13,
                     100,
-                    "08 Nov 2019")
+                    "10 Nov 2019")
 
             foodDBHelper.insertFood(FoodRecord(food.getName(),
                     food.getPrice(),

@@ -27,11 +27,6 @@ class PriceCalculator {
         fun getNewPrice(food: FoodRecord, foodDBHelper: DBHelper): Float {
             val foodList = getFoodListToday(foodDBHelper.readAllFood())
 
-            if (foodList.isEmpty()) {
-                return food.price
-            }
-
-            println(foodList)
             val macroRatioToday = getMacroRatioToday(foodList)
             val test = "${macroRatioToday.protein} ${macroRatioToday.carbs} ${macroRatioToday.fat}"
             println(test)
