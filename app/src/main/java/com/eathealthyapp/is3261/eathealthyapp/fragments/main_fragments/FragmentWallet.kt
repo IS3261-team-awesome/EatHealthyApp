@@ -92,6 +92,12 @@ class FragmentWallet : Fragment() {
         dialog.show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        currentBalance = sharedPreferences.getFloat(BALANCE, 0f)
+        setBalanceText(currentBalance)
+    }
+
     private fun showWithdrawDialog() {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -135,6 +141,6 @@ class FragmentWallet : Fragment() {
     }
 
     fun setBalanceText(currentBalance: Float) {
-        balanceTextView.setText("$" + currentBalance.toString())
+        balanceTextView.text = "$${String.format("%.2f", currentBalance)}"
     }
 }

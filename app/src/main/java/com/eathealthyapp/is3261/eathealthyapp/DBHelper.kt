@@ -54,13 +54,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
 
         db.insert(FoodTable.TABLE_NAME, null, values)
 
-
-        // update price
-
-        val updatedPrice = PriceCalculator.getNewPrice(food, this)
-        println("NEW PRICE: "+  updatedPrice)
-        updateFoodPrice(food.name, updatedPrice)
-
         return true
     }
 

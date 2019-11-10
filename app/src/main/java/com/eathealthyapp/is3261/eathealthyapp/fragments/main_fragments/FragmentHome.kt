@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.eathealthyapp.is3261.eathealthyapp.FoodRecord
 import com.eathealthyapp.is3261.eathealthyapp.fragments.sub_fragments.FragmentFoodChart
-import com.eathealthyapp.is3261.eathealthyapp.utils.PriceCalculator
 import kotlin.collections.ArrayList
 
 
@@ -48,11 +47,15 @@ class FragmentHome : Fragment() {
         val dateTV = view.findViewById<TextView>(R.id.dateTV)
         dateTV.text = getDateString(currentCalenderPage)
 
+        val dayTV = view.findViewById<TextView>(R.id.dayTV)
+        dayTV.text = getDayString(currentCalenderPage)
+
         val leftBtn = view.findViewById<ImageButton>(R.id.leftBtn)
         leftBtn.setOnClickListener {
             // Update date
             currentCalenderPage.add(Calendar.DAY_OF_YEAR, -1)
             dateTV.text = getDateString(currentCalenderPage)
+            dayTV.text = getDayString(currentCalenderPage)
             // Update food List
             emptyFoodList()
             populateFoodList()
@@ -64,6 +67,7 @@ class FragmentHome : Fragment() {
             // Update date
             currentCalenderPage.add(Calendar.DAY_OF_YEAR, 1)
             dateTV.text = getDateString(currentCalenderPage)
+            dayTV.text = getDayString(currentCalenderPage)
             // Update food List
             emptyFoodList()
             populateFoodList()
@@ -80,7 +84,7 @@ class FragmentHome : Fragment() {
                     302,
                     13,
                     100,
-                    "08 Nov 2019")
+                    "10 Nov 2019")
 
             foodDBHelper.insertFood(FoodRecord(food.getName(),
                     food.getPrice(),
@@ -141,6 +145,11 @@ class FragmentHome : Fragment() {
 
     fun getDateString(calendar: Calendar): String {
         val dateFormat = SimpleDateFormat("dd MMM yyyy")
+        return dateFormat.format(calendar.time)
+    }
+
+    fun getDayString(calendar: Calendar): String {
+        val dateFormat = SimpleDateFormat("EEE")
         return dateFormat.format(calendar.time)
     }
 

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.eathealthyapp.is3261.eathealthyapp.*
+import com.eathealthyapp.is3261.eathealthyapp.utils.PriceCalculator
 
 class ActivityPayment : AppCompatActivity(), OnFoodParsed {
     lateinit var foodDBHelper: DBHelper
@@ -25,35 +26,55 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
         val scannedTextParts = scannedText.split("-", limit = 3)
         val foodDescription = scannedTextParts[0]
         val stallName = scannedTextParts[1]
-        val basePrice = scannedTextParts[2]
+        val basePrice = scannedTextParts[2].toFloat()
+
+        // Add to db first remove if cancel
+        parseFoodAndAddToDb(foodDescription)
+
+        // Get last food added (Food price now is currently a dummy value of 5)
+        val lastAddedFoodRecord = foodDBHelper.readAllFood().last()
+        lastAddedFoodRecord.price = basePrice
+
+        // Update price
+        val updatedPrice = PriceCalculator.getNewPrice(lastAddedFoodRecord, foodDBHelper)
+        lastAddedFoodRecord.price = updatedPrice
+        foodDBHelper.updateFoodPrice(lastAddedFoodRecord.name, updatedPrice)
 
         val foodNameTV = findViewById<TextView>(R.id.foodNameTV)
         foodNameTV.text = foodDescription
         val stallNameTV = findViewById<TextView>(R.id.stallNameTV)
         stallNameTV.text = stallName
         val priceTV = findViewById<TextView>(R.id.priceTV)
-        priceTV.text = basePrice
+        priceTV.text = "$${String.format("%.2f", updatedPrice)}"
         val confirmBtn = findViewById<Button>(R.id.confirm_button)
         confirmBtn.setOnClickListener {
             // Deduct from balance
-            handlePayment()
-            // Notify main activity of new food item
-            parseFoodAndAddToDb(foodDescription)
+            handlePayment(updatedPrice)
 
             // Go to food detail
-            goToFoodDetailActivity()
+            goToFoodDetailActivity(lastAddedFoodRecord.getFood())
             finish()
         }
         val cancelBtn = findViewById<Button>(R.id.cancel_button)
         cancelBtn.setOnClickListener {
+            // Delete food from db
+            foodDBHelper.deleteFood(lastAddedFoodRecord.name)
+
             // Return to main screen
             finish()
         }
     }
 
-    fun handlePayment() {
+    fun handlePayment(updatedPrice: Float) {
         Toast.makeText(this, "Successfully paid!", Toast.LENGTH_LONG).show()
         // TODO: Minus from current balance
+        // Deduct from balance
+        val sharedPreferences = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val currentBalance = sharedPreferences.getFloat("balance", 0f)
+        val newBalance = currentBalance - updatedPrice
+        val editor = sharedPreferences.edit()
+        editor.putFloat("balance", newBalance)
+        editor.apply()
     }
 
     // foodName format : 1 apple
@@ -79,34 +100,11 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
         foodDBHelper.insertFood(food)
     }
 
-    fun goToFoodDetailActivity() {
-        // Get last food added
-        val db = DBHelper(this)
-        val lastAddedFood = db.readAllFood().last()
-        val food = Food(lastAddedFood.name,
-                lastAddedFood.price,
-                lastAddedFood.calories,
-                lastAddedFood.protein,
-                lastAddedFood.carbs,
-                lastAddedFood.fat,
-                lastAddedFood.date)
-
-        // Deduct from balance
-        //deductFromBalance(food.getPrice())
-
+    fun goToFoodDetailActivity(food: Food) {
         val bundle = Bundle()
         bundle.putParcelable("food", food)
         val intent = Intent(this, ActivityFoodDetail::class.java)
         intent.putExtras(bundle)
         startActivity(intent)
-    }
-
-    fun deductFromBalance(newPrice: Float) {
-        val sharedPreferences = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-        val currentBalance = sharedPreferences.getInt("balance", 0)
-        val newBalance = currentBalance - newPrice
-        val editor = sharedPreferences.edit()
-        editor.putFloat("balance", newBalance)
-        editor.apply()
     }
 }

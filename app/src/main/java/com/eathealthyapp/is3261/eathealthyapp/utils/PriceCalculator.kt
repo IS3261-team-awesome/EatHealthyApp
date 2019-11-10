@@ -4,6 +4,7 @@ import android.content.Context
 import com.eathealthyapp.is3261.eathealthyapp.DBHelper
 import com.eathealthyapp.is3261.eathealthyapp.Food
 import com.eathealthyapp.is3261.eathealthyapp.FoodRecord
+import com.eathealthyapp.is3261.eathealthyapp.utils.PriceCalculator.Companion.RECOMMENDED_PROTEIN_RATIO
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -14,8 +15,6 @@ class MacroRatio(protein: Float, carbs: Float, fat: Float) {
     val fat = fat
 }
 
-
-// TODO: calcualted price incorrect!!
 class PriceCalculator {
     companion object {
         val RECOMMENDED_PROTEIN_RATIO = 0.2f

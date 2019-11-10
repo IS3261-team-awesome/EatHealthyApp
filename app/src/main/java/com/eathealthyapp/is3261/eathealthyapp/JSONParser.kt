@@ -50,7 +50,7 @@ class JSONParser(private var c: Context,
             val dateString = dateFormat.format(currentCalendar.time)
 
             food = Food(foodName,
-                    5f, // TODO: set price
+                    5f, // price set here is a dummy it will be replaced in ActivityPayment
                     getCalories(foodObject).toInt(),
                     getProtein(foodObject).toInt(),
                     getCarbs(foodObject).toInt(),
