@@ -1,6 +1,5 @@
 package com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -99,9 +98,10 @@ class FragmentHome : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        println("-------------------RESUMED")
+        Log.i("FragmentHome", "Resumed")
         emptyFoodList()
         populateFoodList()
+        updateFoodChart()
     }
 
     fun populateFoodList() {
