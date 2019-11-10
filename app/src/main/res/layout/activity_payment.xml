@@ -7,33 +7,22 @@
     tools:context="com.eathealthyapp.is3261.eathealthyapp.activities.ActivityPayment">
 
     <TextView
-        android:id="@+id/intakeCommentTV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:text="intake comment text view not done"
-        android:textSize="11sp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/foodNameTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/intakeCommentTV"
-        android:gravity="center"
-        android:text="food name text view not done"
-        android:textSize="25sp"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/priceTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Loading..."
         android:layout_below="@+id/foodNameTV"
         android:gravity="center"
-        android:text="amount text view not done"
         android:textSize="37sp"
         android:textStyle="bold" />
 
@@ -54,7 +43,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Paying to"
-        android:textSize="10sp"
+        android:textSize="13sp"
         android:textStyle="bold" />
 
     <TextView
@@ -64,9 +53,8 @@
         android:layout_below="@+id/tv1"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="stall name text view not done"
         android:textColor="@color/colorDarkGray"
-        android:textSize="10sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <Button

@@ -2,8 +2,10 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.content.Context
 import android.os.AsyncTask
+import android.util.Log
 import android.widget.Toast
 import com.eathealthyapp.is3261.eathealthyapp.R.id.dateTV
+import com.eathealthyapp.is3261.eathealthyapp.utils.QRParser
 import org.json.JSONException
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -16,7 +18,7 @@ interface OnFoodParsed {
 class JSONParser(private var c: Context,
                  private var listener: OnFoodParsed,
                  private var jsonData: String,
-                 private var foodName: String) : AsyncTask<Void, Void, Boolean>() {
+                 private var query: String) : AsyncTask<Void, Void, Boolean>() {
     private lateinit var food : Food
 
     override fun onPreExecute() {
@@ -29,6 +31,7 @@ class JSONParser(private var c: Context,
 
     override fun onPostExecute(result: Boolean?) {
         super.onPostExecute(result)
+        Log.i("fooddddddddd", result.toString())
         if (result!!) {
             listener.OnFoodParsed(food)
 
@@ -42,15 +45,20 @@ class JSONParser(private var c: Context,
     }
 
     private fun parse(): Boolean {
+        Log.i("InternetJason", "parse() method called")
         try {
+            Log.i("JASONPARDER", query)
             var foodObject = JSONObject(jsonData)
 
             val currentCalendar = Calendar.getInstance()
             val dateFormat = SimpleDateFormat("dd MMM yyyy")
             val dateString = dateFormat.format(currentCalendar.time)
 
+            val foodName = QRParser.getFoodName(query)
+            val basePrice = QRParser.getBasePrice(query)
+
             food = Food(foodName,
-                    5f, // price set here is a dummy it will be replaced in ActivityPayment
+                    basePrice,
                     getCalories(foodObject).toInt(),
                     getProtein(foodObject).toInt(),
                     getCarbs(foodObject).toInt(),

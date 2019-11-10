@@ -80,7 +80,7 @@ class FragmentHome : Fragment() {
         val testbtn = view.findViewById<Button>(R.id.btnTest)
         testbtn.setOnClickListener {
             val food = Food("Coffee",
-                    3f,
+                    2f,
                     415,
                     302,
                     13,

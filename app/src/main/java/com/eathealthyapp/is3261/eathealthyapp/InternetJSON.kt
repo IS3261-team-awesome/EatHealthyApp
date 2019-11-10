@@ -2,7 +2,9 @@ package com.eathealthyapp.is3261.eathealthyapp
 
 import android.content.Context
 import android.os.AsyncTask
+import android.util.Log
 import android.widget.Toast
+import com.eathealthyapp.is3261.eathealthyapp.utils.QRParser
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.IOException
@@ -11,7 +13,9 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-class InternetJSON(private var c: Context, private var listener: OnFoodParsed, private var query: String)
+class InternetJSON(private var c: Context,
+                   private var listener: OnFoodParsed,
+                   private var query: String)
     : AsyncTask<Void, Void, String>() {
     val APP_ID = "0377a2d4"
     val APP_KEY = "b41e77e4438bcd0244672cbbc943ff8d"
@@ -38,6 +42,8 @@ class InternetJSON(private var c: Context, private var listener: OnFoodParsed, p
             Toast.makeText(c, "Connect problem most probably cannot connect to any network",
                     Toast.LENGTH_LONG).show()
         } else {
+            Log.i("InternetJason", "starting to parse")
+            Log.i("fooddddddddd", "9999999999")
             JSONParser(c, listener, jsonData, query).execute()
         }
     }
@@ -64,7 +70,7 @@ class InternetJSON(private var c: Context, private var listener: OnFoodParsed, p
 
     // gives to edamam to parse into json data then change format to return as string
     private fun download():String {
-        val jsonURL = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${query}"
+        val jsonURL = "https://api.edamam.com/api/nutrition-data?app_id=${APP_ID}&app_key=${APP_KEY}&ingr=1%20${QRParser.getFoodName(query)}"
         val connection = connect(jsonURL)
         if (connection.toString().startsWith("Error")) {
             return connection.toString()

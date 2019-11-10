@@ -26,42 +26,24 @@ class PriceCalculator {
         fun getNewPrice(food: FoodRecord, foodDBHelper: DBHelper): Float {
             val foodList = getFoodListToday(foodDBHelper.readAllFood())
 
-            val macroRatioToday = getMacroRatioToday(foodList)
+            val macroRatioToday = getMacroRatioToday(foodList, food)
 
             val proteinRatioDiff = getProteinRatioDiff(macroRatioToday.protein)
             val carbsRatioDiff = getCarbsRatioDiff(macroRatioToday.carbs)
             val fatRatioDiff = getFatRatioDiff(macroRatioToday.fat)
+
+            var foodCountScaling = foodDBHelper.getFoodCount(food.name).toFloat() - RECOMMENDED_DAILY_SERVINGS
+
+            if (foodCountScaling <= 0) {
+                foodCountScaling = 0f
+            }
 
             return food.price *
                     (1 - proteinRatioDiff) *
                     (1 - carbsRatioDiff) *
                     (1 - fatRatioDiff) +
-                    (foodDBHelper.getFoodCount(food.name).toFloat() - RECOMMENDED_DAILY_SERVINGS) *
+                    foodCountScaling *
                     EXCEEDED_SERVINGS_PENALTY
-        }
-
-        fun getMostExceededNutrient(food: FoodRecord, foodDBHelper: DBHelper): String {
-            val foodList = getFoodListToday(foodDBHelper.readAllFood())
-
-            val macroRatioToday = getMacroRatioToday(foodList)
-
-            val proteinRatioDiff = getProteinRatioDiff(macroRatioToday.protein)
-            val carbsRatioDiff = getCarbsRatioDiff(macroRatioToday.carbs)
-            val fatRatioDiff = getFatRatioDiff(macroRatioToday.fat)
-
-            var result = "protein"
-            var max = proteinRatioDiff
-
-            if (carbsRatioDiff > max) {
-                max = carbsRatioDiff
-                result = "carbohydrate"
-            }
-
-            if (fatRatioDiff > max) {
-                result = "fat"
-            }
-
-            return result
         }
     }
 }
@@ -94,20 +76,28 @@ private fun getFoodListToday(foodRecords: ArrayList<FoodRecord>): ArrayList<Food
     return foodList
 }
 
-private fun getMacroRatioToday(foodList: ArrayList<FoodRecord>): MacroRatio {
+private fun getMacroRatioToday(foodList: ArrayList<FoodRecord>, food: FoodRecord): MacroRatio {
+    val totalCaloriesToday = getTotalCaloriesToday(foodList).toFloat()
+
+    if (totalCaloriesToday == 0f) {
+        return MacroRatio(
+                food.protein / food.calories.toFloat(),
+                food.carbs / food.calories.toFloat(),
+                food.fat/ food.calories.toFloat())
+    }
+
     var totalProtein = 0
     var totalCarbs = 0
     var totalFat = 0
-
     foodList.forEach {
         totalProtein += it.protein
         totalCarbs += it.carbs
         totalFat += it.fat
     }
     return MacroRatio(
-            totalProtein / getTotalCaloriesToday(foodList).toFloat(),
-            totalCarbs / getTotalCaloriesToday(foodList).toFloat(),
-            totalFat / getTotalCaloriesToday(foodList).toFloat()
+            totalProtein / (totalCaloriesToday + food.calories),
+            totalCarbs / (totalCaloriesToday + food.calories),
+            totalFat / (totalCaloriesToday + food.calories)
     )
 }
 
