@@ -1,7 +1,5 @@
 package com.eathealthyapp.is3261.eathealthyapp.activities
 
-import android.content.Context
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.eathealthyapp.is3261.eathealthyapp.*
+import com.eathealthyapp.is3261.eathealthyapp.fragments.main_fragments.FragmentHome
 
 class ActivityPayment : AppCompatActivity(), OnFoodParsed {
     lateinit var foodDBHelper: DBHelper
@@ -19,7 +18,7 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
 
         foodDBHelper = DBHelper(this)
 
-        // TODO: details should not be passed as scanner but from selection screen
+        // TODO: details should not be passed as scanned text but from selection screen
         // scannedText is in the format: foodDesciption-stallName-base price
         val scannedText = intent.getStringExtra("SCANNEDTEXT")
         val scannedTextParts = scannedText.split("-", limit = 3)
@@ -40,8 +39,8 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
             // Notify main activity of new food item
             parseFoodAndAddToDb(foodDescription)
 
-            // Go to food detail
-            goToFoodDetailActivity()
+            // TODO: parseFoodAndAddToDb is running while finish is called so onresume() in FragmentHome runes before food is added to db thus when update foodlist is called the new food is not registered
+            // TODO: end activity and go to food detail then from there back to main activity (jolyn)
             finish()
         }
         val cancelBtn = findViewById<Button>(R.id.cancel_button)
@@ -77,36 +76,5 @@ class ActivityPayment : AppCompatActivity(), OnFoodParsed {
     fun addFoodToDB(food: FoodRecord) {
         Log.i("add", food.name)
         foodDBHelper.insertFood(food)
-    }
-
-    fun goToFoodDetailActivity() {
-        // Get last food added
-        val db = DBHelper(this)
-        val lastAddedFood = db.readAllFood().last()
-        val food = Food(lastAddedFood.name,
-                lastAddedFood.price,
-                lastAddedFood.calories,
-                lastAddedFood.protein,
-                lastAddedFood.carbs,
-                lastAddedFood.fat,
-                lastAddedFood.date)
-
-        // Deduct from balance
-        //deductFromBalance(food.getPrice())
-
-        val bundle = Bundle()
-        bundle.putParcelable("food", food)
-        val intent = Intent(this, ActivityFoodDetail::class.java)
-        intent.putExtras(bundle)
-        startActivity(intent)
-    }
-
-    fun deductFromBalance(newPrice: Float) {
-        val sharedPreferences = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-        val currentBalance = sharedPreferences.getInt("balance", 0)
-        val newBalance = currentBalance - newPrice
-        val editor = sharedPreferences.edit()
-        editor.putFloat("balance", newBalance)
-        editor.apply()
     }
 }

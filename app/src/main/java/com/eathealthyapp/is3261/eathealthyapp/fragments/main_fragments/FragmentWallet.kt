@@ -23,7 +23,7 @@ class FragmentWallet : Fragment() {
     lateinit var sharedPreferences: SharedPreferences
     private var myPreferences = "myPrefs"
     private var BALANCE = "balance"
-    var currentBalance = -1f
+    var currentBalance: Int = -1
 
     lateinit var balanceTextView : TextView
 
@@ -38,7 +38,7 @@ class FragmentWallet : Fragment() {
 
         // Get balance from saved data
         sharedPreferences = context!!.getSharedPreferences(myPreferences, Context.MODE_PRIVATE)
-        currentBalance = sharedPreferences.getFloat(BALANCE, 0f)
+        currentBalance = sharedPreferences.getInt(BALANCE, 0)
 
         // Set up widgets and their functionality
         balanceTextView = view.findViewById<TextView>(R.id.balance_textview)
@@ -67,12 +67,12 @@ class FragmentWallet : Fragment() {
         confirmButton.setOnClickListener {
             if (topupEditText.text.toString() != "") {
                 // Update current balance
-                val topupAmount: Float = topupEditText.text.toString().toFloat()
+                val topupAmount: Int = topupEditText.text.toString().toInt()
                 currentBalance += topupAmount
 
                 // Save data
                 val editor = sharedPreferences.edit()
-                editor.putFloat(BALANCE, currentBalance)
+                editor.putInt(BALANCE, currentBalance)
                 editor.apply()
 
                 // Change balance display
@@ -104,7 +104,7 @@ class FragmentWallet : Fragment() {
         confirmButton.setOnClickListener {
             if (withdrawEditText.text.toString() != "") {
                 // Update current balance
-                val withdrawAmount: Float = withdrawEditText.text.toString().toFloat()
+                val withdrawAmount: Int = withdrawEditText.text.toString().toInt()
 
                 val uncheckedCurrentBalance = currentBalance - withdrawAmount
                 if (uncheckedCurrentBalance < 0) {
@@ -113,7 +113,7 @@ class FragmentWallet : Fragment() {
                     // Save data
                     currentBalance = uncheckedCurrentBalance
                     val editor = sharedPreferences.edit()
-                    editor.putFloat(BALANCE, currentBalance)
+                    editor.putInt(BALANCE, currentBalance)
                     editor.apply()
 
                     // Change balance display
@@ -134,7 +134,7 @@ class FragmentWallet : Fragment() {
         dialog.show()
     }
 
-    fun setBalanceText(currentBalance: Float) {
+    fun setBalanceText(currentBalance: Int) {
         balanceTextView.setText("$" + currentBalance.toString())
     }
 }
