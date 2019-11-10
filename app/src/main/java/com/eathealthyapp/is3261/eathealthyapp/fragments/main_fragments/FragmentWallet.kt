@@ -60,7 +60,6 @@ class FragmentWallet : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_wallet_topup)
-        dialog.window.decorView.setBackgroundResource(android.R.color.transparent)
 
         val topupEditText = dialog.findViewById<EditText>(R.id.topup_edittext)
         val confirmButton = dialog.findViewById<Button>(R.id.confirm_button)
