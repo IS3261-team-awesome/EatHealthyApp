@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.eathealthyapp.is3261.eathealthyapp.DBHelper
 import com.eathealthyapp.is3261.eathealthyapp.Food
@@ -106,11 +107,17 @@ class FragmentHome : Fragment() {
 
     fun populateFoodList() {
         val foods = getAllFoodWithCurrentDate()
+        val tvNoFoodLogged = view?.findViewById<TextView>(R.id.tvNoFoodLogged)
+        val ivBurger = view?.findViewById<ImageView>(R.id.ivBurger)
 
         if (foods.isEmpty()) {
+            tvNoFoodLogged?.visibility = View.VISIBLE
+            ivBurger?.visibility = View.VISIBLE
             // TODO: set empty image
         } else {
             foods.forEach {
+                tvNoFoodLogged?.visibility = View.GONE
+                ivBurger?.visibility = View.GONE
                 addFoodToList(it)
             }
         }
