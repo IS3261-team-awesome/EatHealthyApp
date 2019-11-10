@@ -28,15 +28,10 @@ class PriceCalculator {
             val foodList = getFoodListToday(foodDBHelper.readAllFood())
 
             val macroRatioToday = getMacroRatioToday(foodList)
-            val test = "${macroRatioToday.protein} ${macroRatioToday.carbs} ${macroRatioToday.fat}"
-            println(test)
 
             val proteinRatioDiff = RECOMMENDED_PROTEIN_RATIO - macroRatioToday.protein
-            println("prot " + proteinRatioDiff)
             val carbsRatioDiff = RECOMMENDED_CARBS_RATIO - macroRatioToday.carbs
-            println("carb " + carbsRatioDiff)
             val fatRatioDiff = RECOMMENDED_FAT_RATIO - macroRatioToday.fat
-            println("fat " + fatRatioDiff)
 
             return food.price *
                     (1 - proteinRatioDiff) *
