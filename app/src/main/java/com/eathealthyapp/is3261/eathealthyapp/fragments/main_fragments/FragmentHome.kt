@@ -113,7 +113,6 @@ class FragmentHome : Fragment() {
         if (foods.isEmpty()) {
             tvNoFoodLogged?.visibility = View.VISIBLE
             ivBurger?.visibility = View.VISIBLE
-            // TODO: set empty image
         } else {
             foods.forEach {
                 tvNoFoodLogged?.visibility = View.GONE
